@@ -5,6 +5,7 @@ import morgan from "morgan"
 import connectDB from "./config/mongo.db"
 import routes from "./routes/router"
 import { logger } from "yayinstocks_shared_module/utility/logger"
+import { initalizeDBPackage } from "yayinstocks_shared_module"
 
 // Load environment variables
 dotenv.config()
@@ -21,13 +22,14 @@ app.listen(PORT, () => {
     logger.info(`Server started on ${PORT} successfully!`)
 
     // Database connection 
-    connectDB()
-        .then(() => {
-            logger.info('Database connected successfully!')
-        })
-        .catch((error) => {
-            logger.error('Database connection failed:', error);
-        })
+    initalizeDBPackage()
+    // connectDB()
+    //     .then(() => {
+    //         logger.info('Database connected successfully!')
+    //     })
+    //     .catch((error) => {
+    //         logger.error('Database connection failed:', error);
+    //     })
 
     routes(app)
 })

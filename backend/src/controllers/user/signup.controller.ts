@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import User from 'yayinstocks_shared_module/models/user.model';
+import { User } from 'yayinstocks_shared_module';
 
 export const signupController = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -12,7 +12,7 @@ export const signupController = async (req: Request, res: Response): Promise<voi
 
         const user = await User.findOne({ email });
         if (user) {
-            res.status(409).json({ message: 'User already exists' });
+            res.status(409).json({ success: true, message: 'User already exists' });
             return;
         }
 
@@ -40,7 +40,7 @@ export const signupController = async (req: Request, res: Response): Promise<voi
 
     } catch (error) {
         console.error('Error in [signup controller]:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ success: false, message: 'Internal server error' });
         return;
     }
 }
