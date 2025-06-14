@@ -1,11 +1,14 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { User } from 'yayinstocks_shared_module';
+import path from "path";
+import ejs from "ejs";
+import { sendMail } from 'yayinstocks_shared_module/utility/sendMail';
 
 export const signupController = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, email, password, age, contact, gender } = req.body;
-        if (!email || !password || !name || !age || !contact || !gender) {
+        const { name, email, password, age, contact } = req.body;
+        if (!email || !password || !name || !age || !contact) {
             res.status(400).json({ message: 'Please fill all fields!' });
             return;
         }
@@ -24,7 +27,6 @@ export const signupController = async (req: Request, res: Response): Promise<voi
             password: hashedPassword,
             age,
             contact,
-            gender
         });
 
         if (!newUser) {
@@ -32,9 +34,36 @@ export const signupController = async (req: Request, res: Response): Promise<voi
             return;
         }
 
+        
+        const templatePath = path.join(__dirname, "../../emails/signup.template.ejs")
+        const emailTemplate = await ejs.renderFile(templatePath, {
+            companyName: 'YAYINSTOCKS',
+            userName: newUser.name || 'Trader',
+            userEmail: newUser.email,
+            logoUrl: 'https://res.cloudinary.com/dkkawe9gq/image/upload/v1749928897/yayinstocks_bg_transperent_web_ahlhee.png',
+            successCount: '5,000',
+            coursesUrl: 'https://yayinstocks.in/courses',
+            mutualFundUrl: 'https://yayinstocks.in/mutual-funds',
+            websiteUrl: 'https://yayinstocks.in',
+            linkedinUrl: 'https://linkedin.com/company/yayinstocks',
+            youtubeUrl: 'https://youtube.com/@yayinstocks',
+            telegramUrl: 'https://t.me/yayinstocks',
+            unsubscribeUrl: 'https://yayinstocks.in/unsubscribe',
+            privacyUrl: 'https://yayinstocks.in/privacy-policy'
+        });
+
+        const mailOptions = {
+            from: "Yayinstock <support@yayinstocks.in>",
+            to: email,
+            subject: "📈 Welcome to YayinStocks - Where traders become winners",
+            html: emailTemplate
+        }
+
+        sendMail(mailOptions)
+
         res.status(201).json({
+            success: true,
             message: 'Signup successful',
-            user: { email }
         });
         return;
 

@@ -5,19 +5,22 @@ import path from 'path';
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
-    winston.format.timestamp(),
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     winston.format.errors({ stack: true }),
-    winston.format.json(),
-    winston.format.prettyPrint()
+    winston.format.printf(({ timestamp, level, message, stack }) => {
+      return stack
+        ? `[${timestamp}] [${level}] ${message}\n${stack}`
+        : `[${timestamp}] [${level}] ${message}`;
+    })
   ),
   transports: [
-    new winston.transports.File({ 
-      filename: path.join('logs', 'error.log'), 
+    new winston.transports.File({
+      filename: path.join('logs', 'error.log'),
       level: 'error',
-      maxsize: 5 * 1024 * 1024, // 5MB
+      maxsize: 5 * 1024 * 1024,
       maxFiles: 5
     }),
-    new winston.transports.File({ 
+    new winston.transports.File({
       filename: path.join('logs', 'combined.log'),
       maxsize: 5 * 1024 * 1024,
       maxFiles: 5
@@ -25,7 +28,12 @@ const logger = winston.createLogger({
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize(),
-        winston.format.simple()
+        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        winston.format.printf(({ timestamp, level, message, stack }) => {
+          return stack
+            ? `[${timestamp}] [${level}] ${message}\n${stack}`
+            : `[${timestamp}] [${level}] ${message}`;
+        })
       )
     })
   ]
@@ -37,6 +45,6 @@ const stream: StreamOptions = {
   }
 };
 
-const morganMiddleware = morgan('combined', { stream });
+const morganMiddleware = morgan(':method :url :status :res[content-length] - :response-time ms', { stream });
 
 export { logger, morganMiddleware };
