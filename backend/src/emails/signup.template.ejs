@@ -1,91 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to <%= companyName %> - Master the Markets</title>
+    <style>
+        /* Mobile-first responsive styles */
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .content-wrapper {
+                padding: 20px !important;
+            }
+
+            .header-content {
+                padding: 30px 20px !important;
+            }
+
+            .header-title {
+                font-size: 24px !important;
+            }
+
+            .section-title {
+                font-size: 18px !important;
+            }
+
+            .cta-container {
+                display: block !important;
+                width: 100% !important;
+            }
+
+            .cta-button {
+                display: block !important;
+                width: 100% !important;
+                margin: 10px 0 !important;
+                padding: 15px 20px !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+            }
+
+            .cta-table {
+                display: flex;
+                flex-direction: column;
+                width: 100% !important;
+            }
+
+            .cta-cell {
+                display: block !important;
+                width: 100% !important;
+                padding: 5px 0 !important;
+            }
+
+            .logo-img {
+                max-width: 150px !important;
+            }
+
+            .footer-links {
+                display: block !important;
+                margin: 10px 0 !important;
+            }
+
+            .footer-links a {
+                display: inline-block !important;
+                margin: 5px 10px !important;
+            }
+        }
+    </style>
 </head>
+
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
     <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4;">
         <tr>
-            <td align="center" style="padding: 20px 0;">
-                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <td align="center" style="padding: 20px 10px;">
+                <table class="email-container" width="600" cellpadding="0" cellspacing="0"
+                    style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 600px; width: 100%;">
                     <!-- Header -->
                     <tr>
-                        <td style="background: linear-gradient(135deg, #1a4d3a 0%, #2d5a3d 50%, #4a2c2a 100%); padding: 40px 30px; text-align: center; border-radius: 10px 10px 0 0;">
+                        <td class="header-content"
+                            style="background: linear-gradient(135deg, #000000 0%, #2d5a3d 50%, #4a2c2a 100%); padding: 40px 30px; text-align: center; border-radius: 10px 10px 0 0;">
                             <div style="margin-bottom: 30px;">
-                                <img src="<%= logoUrl %>" alt="<%= companyName %>" style="max-width: 180px; height: auto; display: block; margin: 0 auto;" />
+                                <img class="logo-img" src="<%= logoUrl %>" alt="<%= companyName %>"
+                                    style="max-width: 180px; height: auto; display: block; margin: 0 auto;" />
                             </div>
-                            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">
+                            <h1 class="header-title"
+                                style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold; line-height: 1.2;">
                                 Welcome to Your Trading Journey! 🎯
                             </h1>
                         </td>
                     </tr>
-                    
+
                     <!-- Main Content -->
                     <tr>
-                        <td style="padding: 40px 30px;">
+                        <td class="content-wrapper" style="padding: 40px 30px;">
                             <div style="color: #333333; line-height: 1.6;">
                                 <h2 style="color: #1a4d3a; margin-top: 0; font-size: 24px;">
                                     Hello <%= userName %>,
                                 </h2>
-                                
-                                <h3 style="color: #1a4d3a; font-size: 20px;">
+
+                                <h3 class="section-title" style="color: #1a4d3a; font-size: 20px;">
                                     Master the Markets with Clarity and Confidence
                                 </h3>
-                                
+
                                 <p style="font-size: 16px; margin-bottom: 20px;">
-                                    Thank you for joining our community of successful traders! You've just taken the first step toward mastering Cash, Futures, and Options Trading in the Indian Markets.
+                                    Thank you for joining our community of successful traders! You've just taken the
+                                    first step toward mastering Cash, Futures, and Options Trading in the Indian
+                                    Markets.
                                 </p>
-                                
+
                                 <p style="font-size: 16px; margin-bottom: 25px;">
-                                    At <%= companyName %>, we've already guided over <strong><%= successCount %>+ traders to success</strong>, and now it's your turn to join this elite group of confident market players.
+                                    At <%= companyName %>, we've already guided over <strong>
+                                            <%= successCount %>+ traders to success
+                                        </strong>, and now it's your turn to join this elite group of confident market
+                                        players.
                                 </p>
-                                
+
                                 <!-- What's Next Section -->
-                                <div style="background-color: #f8fffe; padding: 25px; border-radius: 8px; border-left: 4px solid #4ade80; margin: 25px 0;">
-                                    <h3 style="color: #1a4d3a; margin-top: 0; font-size: 20px;">
+                                <div
+                                    style="background-color: #f8fffe; padding: 25px; border-radius: 8px; border-left: 4px solid #4ade80; margin: 25px 0;">
+                                    <h3 class="section-title" style="color: #1a4d3a; margin-top: 0; font-size: 20px;">
                                         🚀 What's Next?
                                     </h3>
                                     <ul style="color: #333333; padding-left: 20px;">
-                                        <li style="margin-bottom: 10px;"><strong>Explore Our Courses:</strong> Browse our comprehensive trading programs designed for all skill levels</li>
-                                        <li style="margin-bottom: 10px;"><strong>Start Your Mutual Fund Journey:</strong> Take advantage of our expert-guided investment opportunities</li>
-                                        <li style="margin-bottom: 10px;"><strong>Join Live Sessions:</strong> Participate in real-time market analysis and trading discussions</li>
-                                        <li><strong>Access Resources:</strong> Download our exclusive trading guides and market insights</li>
+                                        <li style="margin-bottom: 10px;"><strong>Explore Our Courses:</strong> Browse
+                                            our comprehensive trading programs designed for all skill levels</li>
+                                        <li style="margin-bottom: 10px;"><strong>Start Your Mutual Fund
+                                                Journey:</strong> Take advantage of our expert-guided investment
+                                            opportunities</li>
+                                        <li style="margin-bottom: 10px;"><strong>Join Live Sessions:</strong>
+                                            Participate in real-time market analysis and trading discussions</li>
+                                        <li><strong>Access Resources:</strong> Download our exclusive trading guides and
+                                            market insights</li>
                                     </ul>
                                 </div>
-                                
-                                <!-- CTA Buttons -->
+
+                                <!-- CTA Buttons - Mobile Responsive -->
                                 <div style="text-align: center; margin: 30px 0;">
-                                    <table cellpadding="0" cellspacing="0" style="margin: 0 auto;">
-                                        <tr>
-                                            <td style="padding: 0 10px;">
-                                                <a href="<%= coursesUrl %>" style="display: inline-block; background-color: #4ade80; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 16px;">
-                                                    View Our Courses
-                                                </a>
-                                            </td>
-                                            <td style="padding: 0 10px;">
-                                                <a href="<%= mutualFundUrl %>" style="display: inline-block; background-color: transparent; color: #1a4d3a; padding: 15px 25px; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 16px; border: 2px solid #1a4d3a;">
-                                                    Open Mutual Fund Account
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                    <div class="cta-table" style="margin: 0 auto; width: 100%; max-width: 500px;">
+                                        <a class="cta-button" href="<%= coursesUrl %>"
+                                            style="display: block; background-color: #4ade80; color: #ffffff; padding: 15px 20px; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 16px; text-align: center; width: 100%; box-sizing: border-box;">
+                                            View Our Courses
+                                        </a>
+                                        <a class="cta-button" href="<%= mutualFundUrl %>"
+                                            style="display: block; background-color: transparent; color: #1a4d3a; padding: 13px 18px; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 16px; border: 2px solid #1a4d3a; text-align: center; width: 100%; box-sizing: border-box; margin-top: 10px;">
+                                            Open Mutual Fund Account
+                                        </a>
+                                    </div>
                                 </div>
-                                
+
                                 <!-- Success Story -->
-                                <div style="background-color: #1a4d3a; color: #ffffff; padding: 25px; border-radius: 8px; margin: 25px 0; text-align: center;">
+                                <div
+                                    style="background-color: #1a4d3a; color: #ffffff; padding: 25px; border-radius: 8px; margin: 25px 0; text-align: center;">
                                     <h3 style="margin-top: 0; color: #4ade80;">💡 Quick Tip</h3>
                                     <p style="margin-bottom: 0; font-style: italic;">
-                                        "The best time to start trading was yesterday. The second best time is now. 
-                                        Begin with our beginner-friendly courses and build your confidence step by step."
+                                        "The best time to start trading was yesterday. The second best time is now.
+                                        Begin with our beginner-friendly courses and build your confidence step by
+                                        step."
                                     </p>
                                 </div>
-                                
+
                                 <p style="font-size: 16px; margin-bottom: 20px;">
-                                    We're excited to be part of your trading success story. If you have any questions or need guidance on where to start, simply reply to this email or reach out to our support team.
+                                    We're excited to be part of your trading success story. If you have any questions or
+                                    need guidance on where to start, simply reply to this email or reach out to our
+                                    support team.
                                 </p>
-                                
+
                                 <p style="font-size: 16px; margin-bottom: 30px;">
                                     Happy Trading!<br>
                                     <strong>The <%= companyName %> Team</strong>
@@ -93,24 +175,31 @@
                             </div>
                         </td>
                     </tr>
-                    
+
                     <!-- Footer -->
                     <tr>
-                        <td style="background-color: #f8f9fa; padding: 30px; text-align: center; border-radius: 0 0 10px 10px;">
+                        <td
+                            style="background-color: #f8f9fa; padding: 30px 20px; text-align: center; border-radius: 0 0 10px 10px;">
                             <div style="color: #666666; font-size: 14px; line-height: 1.5;">
                                 <p style="margin: 0 0 15px 0;">
                                     Follow us for daily market insights and trading tips:
                                 </p>
-                                <div style="margin: 15px 0;">
-                                    <a href="<%= websiteUrl %>" style="color: #4ade80; text-decoration: none; margin: 0 10px;">Website</a> |
-                                    <a href="<%= linkedinUrl %>" style="color: #4ade80; text-decoration: none; margin: 0 10px;">LinkedIn</a> |
-                                    <a href="<%= youtubeUrl %>" style="color: #4ade80; text-decoration: none; margin: 0 10px;">YouTube</a> |
-                                    <a href="<%= telegramUrl %>" style="color: #4ade80; text-decoration: none; margin: 0 10px;">Telegram</a>
+                                <div class="footer-links" style="margin: 15px 0;">
+                                    <a href="<%= websiteUrl %>"
+                                        style="color: #4ade80; text-decoration: none; margin: 0 10px;">Website</a> |
+                                    <a href="<%= linkedinUrl %>"
+                                        style="color: #4ade80; text-decoration: none; margin: 0 10px;">LinkedIn</a> |
+                                    <a href="<%= youtubeUrl %>"
+                                        style="color: #4ade80; text-decoration: none; margin: 0 10px;">YouTube</a> |
+                                    <a href="<%= telegramUrl %>"
+                                        style="color: #4ade80; text-decoration: none; margin: 0 10px;">Telegram</a>
                                 </div>
                                 <p style="margin: 15px 0 0 0; font-size: 12px; color: #999999;">
-                                    This email was sent to you because you signed up for <%= companyName %>. 
-                                    <a href="<%= unsubscribeUrl %>" style="color: #4ade80; text-decoration: none;">Unsubscribe</a> | 
-                                    <a href="<%= privacyUrl %>" style="color: #4ade80; text-decoration: none;">Privacy Policy</a>
+                                    This email was sent to you because you signed up for <%= companyName %>.
+                                        <a href="<%= unsubscribeUrl %>"
+                                            style="color: #4ade80; text-decoration: none;">Unsubscribe</a> |
+                                        <a href="<%= privacyUrl %>"
+                                            style="color: #4ade80; text-decoration: none;">Privacy Policy</a>
                                 </p>
                             </div>
                         </td>
@@ -120,4 +209,5 @@
         </tr>
     </table>
 </body>
+
 </html>
