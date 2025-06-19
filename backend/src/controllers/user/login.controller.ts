@@ -2,6 +2,7 @@ import e, { Request, Response } from 'express';
 import { logger } from 'yayinstocks_shared_module/utility/logger';
 import { User } from 'yayinstocks_shared_module';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 export const loginController = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -14,6 +15,13 @@ export const loginController = async (req: Request, res: Response): Promise<void
         const user = await User.findOne({ email });
         if (!user) {
             res.status(404).json({ success: false, message: 'User not found' });
+            return;
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            res.status(401).json({ success: false, message: 'Invalid password' });
             return;
         }
 

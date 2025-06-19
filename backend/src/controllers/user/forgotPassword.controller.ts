@@ -1,9 +1,10 @@
 import { logger } from 'yayinstocks_shared_module/utility/logger';
 import { Request, Response } from 'express';
-import { User } from 'yayinstocks_shared_module';
+import { User, OTP } from 'yayinstocks_shared_module';
 import path from "path";
 import ejs from "ejs";
 import { sendMail } from 'yayinstocks_shared_module/utility/sendMail';
+import bcrypt from 'bcrypt';
 
 export const forgotPasswordController = async (req: Request, res: Response) => {
     try {
@@ -26,6 +27,13 @@ export const forgotPasswordController = async (req: Request, res: Response) => {
 
         const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
 
+        const otpInstance = await OTP.findOne({ email })
+
+        if (otpInstance) {
+            await OTP.deleteOne({ email: otpInstance.email })
+        }
+
+        await OTP.create({ email, otp: otpCode })
 
         const templatePath = path.join(__dirname, "../../emails/otp.template.ejs")
         const emailTemplate = await ejs.renderFile(
@@ -48,13 +56,14 @@ export const forgotPasswordController = async (req: Request, res: Response) => {
             html: emailTemplate
         }
 
-        sendMail(mailOptions)
-
-        res.status(200).json({
-            success: true,
-            message: "OTP sent successfully!"
+        sendMail(mailOptions).then(() => {
+            res.status(200).json({
+                success: true,
+                message: "OTP sent successfully!"
+            })
+        }).catch((error) => {
+            logger.error(error)
         })
-        return;
 
     } catch (error) {
         logger.error(error)
@@ -62,4 +71,37 @@ export const forgotPasswordController = async (req: Request, res: Response) => {
         return;
     }
 
+}
+
+
+export const changePasswordController = async (req: Request, res: Response) => {
+    try {
+        const { email, password, otp } = req.body
+
+        const otpInstance = await OTP.findOne({ email, otp: otp })
+
+        if (!otpInstance) {
+            res.status(400).json({ success: false, message: 'Invalid OTP code' });
+            return;
+        }
+
+        const userInstance = await User.findOne({ email })
+
+        if (!userInstance) {
+            res.status(404).json({ success: false, message: 'User not found' });
+            return;
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        await User.updateOne({ email }, { password: hashedPassword })
+
+        res.status(200).json({ success: true, message: 'Password changed successfully' });
+        return;
+
+    } catch (error) {
+        logger.error(error)
+        res.status(500).json({ success: false, message: 'Internal server error' });
+        return;
+    }
 }
