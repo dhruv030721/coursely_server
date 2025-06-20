@@ -21,5 +21,5 @@ export async function sendMail(options: SendMailOptions): Promise<void> {
     };
       
     
-    await transporter.sendMail(mailOptions).then((response) => {logger.info(`Email successfully sent to: ${mailOptions.to} ✅`)});
+    await transporter.sendMail(mailOptions).then(() => {logger.info(`Email successfully sent to: ${mailOptions.to} ✅`)});
 }
