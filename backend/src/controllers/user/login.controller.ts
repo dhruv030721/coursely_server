@@ -36,7 +36,12 @@ export const loginController = async (req: Request, res: Response): Promise<void
             return;
         }
 
-        res.cookie("auth_token", token).status(200).json({
+        res.cookie("auth_token", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 3600000,
+            sameSite: 'none'
+        }).status(200).json({
             success: true,
             message: 'Login successful',
             token: token
