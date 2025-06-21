@@ -14,7 +14,7 @@ const app: Application = express();
 
 // Middlewares
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "https://qa1.yayinstocks.com", credentials: true }));
 app.use(morganMiddleware)
 
 // Server Listening
