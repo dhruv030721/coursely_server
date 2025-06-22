@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to <%= companyName %>!</title>
+    <style>
+        /* Mobile-first responsive styles */
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .content-wrapper {
+                padding: 20px !important;
+            }
+
+            .header-content {
+                padding: 30px 20px !important;
+            }
+
+            .header-title {
+                font-size: 24px !important;
+            }
+
+            .section-title {
+                font-size: 18px !important;
+            }
+
+            .welcome-box {
+                padding: 20px !important;
+                font-size: 18px !important;
+            }
+
+            .cta-button {
+                display: block !important;
+                width: 100% !important;
+                margin: 10px 0 !important;
+                padding: 15px 20px !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+            }
+
+            .logo-img {
+                max-width: 150px !important;
+            }
+
+            .footer-links {
+                display: block !important;
+                margin: 10px 0 !important;
+            }
+
+            .footer-links a {
+                display: inline-block !important;
+                margin: 5px 10px !important;
+            }
+        }
+    </style>
+</head>
+
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4;">
+        <tr>
+            <td align="center" style="padding: 20px 10px;">
+                <table class="email-container" width="600" cellpadding="0" cellspacing="0"
+                    style="background-color: #ffffff !important; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 600px; width: 100%;">
+                    <!-- Header -->
+                    <tr>
+                        <td class="header-content"
+                            style="background: linear-gradient(135deg, #000000 0%, #09451e 50%, #4a2c2a 100%); padding: 40px 30px; text-align: center; border-radius: 10px 10px 0 0;">
+                            <div style="margin-bottom: 20px;">
+                                <img class="logo-img" src="<%= logoUrl %>" alt="<%= companyName %>"
+                                    style="max-width: 180px; height: auto; display: block; margin: 0 auto;" />
+                            </div>
+                            <h1 class="header-title"
+                                style="color: #ffffff !important; margin: 0; font-size: 28px; font-weight: bold; line-height: 1.2;">
+                                Welcome to <%= companyName %>! 🎉
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <!-- Main Content -->
+                    <tr>
+                        <td class="content-wrapper" style="padding: 40px 30px;">
+                            <div style="color: #333333; line-height: 1.6; text-align: center;">
+
+                                <p style="font-size: 16px; margin-bottom: 30px;">
+                                    Thank you for subscribing to <%= companyName %>! We're thrilled to have you join our community.
+                                </p>
+
+                                <!-- Welcome Box -->
+                                <div class="welcome-box"
+                                    style="background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); padding: 30px; border-radius: 15px; margin: 30px 0; box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);">
+                                    <div style="color: #ffffff; font-size: 16px; margin-bottom: 10px; font-weight: bold;">
+                                        🎊 Subscription Confirmed!
+                                    </div>
+                                    <div style="color: #ffffff; font-size: 18px; line-height: 1.4;">
+                                        You're now part of our amazing community and will receive the latest updates, exclusive content, and special offers.
+                                    </div>
+                                </div>
+
+                                <!-- What's Next -->
+                                <div
+                                    style="background-color: #f0f9ff; padding: 25px; border-radius: 8px; border-left: 4px solid #0ea5e9; margin: 25px 0; text-align: left;">
+                                    <h3 class="section-title" style="color: #1a4d3a; margin-top: 0; font-size: 18px;">
+                                        🚀 What's Next?
+                                    </h3>
+                                    <ul style="color: #333333; padding-left: 20px; margin: 0;">
+                                        <li style="margin-bottom: 8px;">Check your inbox regularly for our latest updates</li>
+                                        <li style="margin-bottom: 8px;">Explore our website for exclusive subscriber content</li>
+                                        <li style="margin-bottom: 8px;">Follow us on social media for daily updates</li>
+                                        <li>Don't hesitate to reach out if you have any questions</li>
+                                    </ul>
+                                </div>
+
+                                <!-- CTA Button -->
+                                <div style="margin: 30px 0;">
+                                    <a href="<%= websiteUrl %>" class="cta-button"
+                                        style="background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); color: #ffffff; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; display: inline-block; box-shadow: 0 4px 10px rgba(74, 222, 128, 0.3);">
+                                        Explore Our Website →
+                                    </a>
+                                </div>
+
+                                <!-- Contact Info -->
+                                <div
+                                    style="background-color: #fef3c7; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 25px 0;">
+                                    <div style="color: #92400e; font-weight: bold; margin-bottom: 5px;">
+                                        💬 Need Help?
+                                    </div>
+                                    <p style="color: #92400e; margin: 0; font-size: 14px;">
+                                        Our support team is here to help! Reach out to us at 
+                                        <a href="mailto:<%= supportEmail %>" style="color: #92400e; text-decoration: underline;"><%= supportEmail %></a>
+                                    </p>
+                                </div>
+
+                                <p style="font-size: 16px; margin-bottom: 30px; margin-top: 30px;">
+                                    Once again, welcome to the <%= companyName %> family!<br>
+                                    <strong>The <%= companyName %> Team</strong>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td
+                            style="background-color: #f8f9fa; padding: 30px 20px; text-align: center; border-radius: 0 0 10px 10px;">
+                            <div style="color: #666666; font-size: 14px; line-height: 1.5;">
+                                <p style="margin: 0 0 15px 0;">
+                                    Stay connected with us:
+                                </p>
+                                <div class="footer-links" style="margin: 15px 0;">
+                                    <a href="<%= websiteUrl %>"
+                                        style="color: #4ade80; text-decoration: none; margin: 0 10px;">Website</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

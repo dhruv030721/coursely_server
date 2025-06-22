@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Contact Form Submission - <%= companyName %></title>
+    <style>
+        /* Mobile-first responsive styles */
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .content-wrapper {
+                padding: 20px !important;
+            }
+
+            .header-content {
+                padding: 30px 20px !important;
+            }
+
+            .header-title {
+                font-size: 24px !important;
+            }
+
+            .section-title {
+                font-size: 18px !important;
+            }
+
+            .contact-info-box {
+                padding: 20px !important;
+            }
+
+            .field-row {
+                display: block !important;
+                margin-bottom: 15px !important;
+            }
+
+            .field-label {
+                font-size: 14px !important;
+            }
+
+            .field-value {
+                font-size: 16px !important;
+            }
+
+            .logo-img {
+                max-width: 150px !important;
+            }
+
+            .footer-links {
+                display: block !important;
+                margin: 10px 0 !important;
+            }
+
+            .footer-links a {
+                display: inline-block !important;
+                margin: 5px 10px !important;
+            }
+        }
+    </style>
+</head>
+
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4;">
+        <tr>
+            <td align="center" style="padding: 20px 10px;">
+                <table class="email-container" width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff !important; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 600px; width: 100%;">
+                    <!-- Header -->
+                    <tr>
+                        <td class="header-content" style="background: linear-gradient(135deg, #000000 0%, #09451e 50%, #4a2c2a 100%); padding: 40px 30px; text-align: center; border-radius: 10px 10px 0 0;">
+                            <div style="margin-bottom: 20px;">
+                                <img class="logo-img" src="<%= logoUrl %>" alt="<%= companyName %>" style="max-width: 180px; height: auto; display: block; margin: 0 auto;" />
+                            </div>
+                            <h1 class="header-title" style="color: #ffffff !important; margin: 0; font-size: 28px; font-weight: bold; line-height: 1.2;">
+                                New Contact Form Submission 📧
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <!-- Main Content -->
+                    <tr>
+                        <td class="content-wrapper" style="padding: 40px 30px;">
+                            <div style="color: #333333; line-height: 1.6;">
+
+                                <p style="font-size: 16px; margin-bottom: 30px; text-align: center;">
+                                    You have received a new message through your <%= companyName %> contact form.
+                                </p>
+
+                                <!-- Contact Details Box -->
+                                <div class="contact-info-box" style="background-color: #f8f9fa; padding: 30px; border-radius: 15px; margin: 30px 0; border-left: 4px solid #333333; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                                    <div style=" font-size: 18px; margin-bottom: 20px; font-weight: bold; text-align: center;">
+                                        📋 Contact Information
+                                    </div>
+
+                                    <div class="field-row" style="margin-bottom: 15px; padding: 15px; background-color: rgba(255,255,255,0.1); border-radius: 8px;">
+                                        <div class="field-label" style="color: black; font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">
+                                            👤 NAME
+                                        </div>
+                                        <div class="field-value" style="color: black; font-size: 16px; font-weight: 500;">
+                                            <%= name %>
+                                        </div>
+                                    </div>
+
+                                    <div class="field-row" style="margin-bottom: 15px; padding: 15px; background-color: rgba(255,255,255,0.1); border-radius: 8px;">
+                                        <div class="field-label" style="color: black; font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">
+                                            ✉️ EMAIL
+                                        </div>
+                                        <div class="field-value" style="color: black; font-size: 16px; font-weight: 500;">
+                                            <a href="mailto:<%= email %>" style="color: black; text-decoration: underline;"><%= email %></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="field-row" style="margin-bottom: 15px; padding: 15px; background-color: rgba(255,255,255,0.1); border-radius: 8px;">
+                                        <div class="field-label" style="color: black; font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">
+                                            📞 CONTACT
+                                        </div>
+                                        <div class="field-value" style="color: #ffffff; font-size: 16px; font-weight: 500;">
+                                            <a href="tel:<%= contact %>" style="color: black; text-decoration: underline;"><%= contact %></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="field-row" style="margin-bottom: 0; padding: 15px; background-color: rgba(255,255,255,0.1); border-radius: 8px;">
+                                        <div class="field-label" style="color: black; font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">
+                                            📝 subject
+                                        </div>
+                                        <div class="field-value" style="color: black; font-size: 16px; font-weight: 500;">
+                                            <%= subject %>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Message Section -->
+                                <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 4px solid #333333; margin: 25px 0;">
+                                    <h3 class="section-title" style="color: #333333; margin-top: 0; font-size: 18px;">
+                                        💬 Message
+                                    </h3>
+                                    <div style="color: #333333; font-size: 16px; line-height: 1.6; background-color: #ffffff; padding: 20px; border-radius: 6px; border: 1px solid #e5e7eb; white-space: pre-wrap;"><%- message %></div>
+                                </div>
+
+                                <!-- Quick Actions -->
+                                <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 4px solid #666666; margin: 25px 0;">
+                                    <h3 class="section-title" style="color: #333333; margin-top: 0; font-size: 18px;">
+                                        🚀 Quick Actions
+                                    </h3>
+                                    <div style="margin: 15px 0;">
+                                        <a href="mailto:<%= email %>?subject=Re: <%= subject %>" style="background: #333333; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; display: inline-block; margin-right: 10px; margin-bottom: 10px;">
+                                            📧 Reply via Email
+                                        </a>
+                                        <a href="tel:<%= contact %>" style="background: #666666; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; display: inline-block; margin-bottom: 10px;">
+                                            📞 Call Now
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Submission Details -->
+                                <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #999999; margin: 25px 0;">
+                                    <div style="color: #333333; font-weight: bold; margin-bottom: 10px;">
+                                        📅 Submission Details
+                                    </div>
+                                    <p style="color: #666666; margin: 0; font-size: 14px;">
+                                        <strong>Received:</strong> <%= new Date().toLocaleString() %><br>
+                                        <strong>From:</strong> <%= companyName %> Contact Form<br>
+                                        <strong>IP Address:</strong> <%= typeof ipAddress !== 'undefined' ? ipAddress : 'Not available' %>
+                                    </p>
+                                </div>
+
+                                <p style="font-size: 16px; margin-bottom: 30px; margin-top: 30px; text-align: center;">
+                                    Please respond to this inquiry as soon as possible.<br>
+                                    <strong>Automated by <%= companyName %> Contact System</strong>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 30px 20px; text-align: center; border-radius: 0 0 10px 10px;">
+                            <div style="color: #666666; font-size: 14px; line-height: 1.5;">
+                                <p style="margin: 0 0 15px 0;">
+                                    This email was generated automatically by your contact form system.
+                                </p>
+                                <div class="footer-links" style="margin: 15px 0;">
+                                    <a href="<%= websiteUrl %>" style="color: #333333; text-decoration: none; margin: 0 10px;">Visit Website</a>
+                                    <span style="color: #999999;">|</span>
+                                    <a href="mailto:<%= supportEmail %>" style="color: #333333; text-decoration: none; margin: 0 10px;">Support</a>
+                                </div>
+                                <p style="margin: 15px 0 0 0; font-size: 12px; color: #999999;">
+                                    © <%= new Date().getFullYear() %> <%= companyName %>. All rights reserved.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

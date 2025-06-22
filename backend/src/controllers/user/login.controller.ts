@@ -1,8 +1,16 @@
 import e, { Request, Response } from 'express';
-import { logger } from 'yayinstocks_shared_module/utility/logger';
+import { logger } from 'yayinstocks_shared_module';
 import { User } from 'yayinstocks_shared_module';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+
+const generateAuthToken = (payload: { email: string }): string => {
+    return jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '15m' });
+};
+
+const generateRefreshToken = (payload: { email: string }): string => {
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: '7d' });
+};
 
 export const loginController = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -27,24 +35,30 @@ export const loginController = async (req: Request, res: Response): Promise<void
 
         const payload = {
             email: user.email
-        }
+        };
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+        const authToken = generateAuthToken(payload);
+        const refreshToken = generateRefreshToken(payload);
 
-        if (!token) {
-            res.status(500).json({ success: false, message: 'Failed to generate token' });
+        if (!authToken || !refreshToken) {
+            res.status(500).json({ success: false, message: 'Failed to generate tokens' });
             return;
         }
 
-        res.cookie("auth_token", token, {
+        res.cookie("auth_token", authToken, {
             httpOnly: true,
             secure: true,
-            maxAge: 3600000,
+            maxAge: 900000, 
+            sameSite: 'none'
+        }).cookie("refresh_token", refreshToken, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 7 * 24 * 3600000, 
             sameSite: 'none'
         }).status(200).json({
             success: true,
             message: 'Login successful',
-            token: token
+            token: authToken
         });
         logger.info(`User ${user.email} logged in successfully`);
         return;

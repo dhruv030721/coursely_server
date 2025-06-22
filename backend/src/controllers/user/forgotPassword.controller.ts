@@ -1,9 +1,9 @@
-import { logger } from 'yayinstocks_shared_module/utility/logger';
+import { logger } from 'yayinstocks_shared_module';
 import { Request, Response } from 'express';
 import { User, OTP } from 'yayinstocks_shared_module';
 import path from "path";
 import ejs from "ejs";
-import { sendMail } from 'yayinstocks_shared_module/utility/sendMail';
+import { sendMail } from 'yayinstocks_shared_module';
 import bcrypt from 'bcrypt';
 
 export const forgotPasswordController = async (req: Request, res: Response) => {

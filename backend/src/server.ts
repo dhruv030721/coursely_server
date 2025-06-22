@@ -2,7 +2,7 @@ import { Application, Request, Response } from "express"
 import express from "express"
 import dotenv from "dotenv"
 import routes from "./routes/router"
-import { logger, morganMiddleware } from "yayinstocks_shared_module/utility/logger"
+import { logger, morganMiddleware } from "yayinstocks_shared_module"
 import { initalizeDBPackage } from "yayinstocks_shared_module"
 import cors from "cors";
 
@@ -14,7 +14,15 @@ const app: Application = express();
 
 // Middlewares
 app.use(express.json());
-app.use(cors({ origin: ["https://qa1.yayinstocks.com", "http://localhost:5173"], credentials: true }));
+if (process.env.ENV_MODE === "QA") {
+    app.use(cors({ origin: ["https://qa1.yayinstocks.in"], credentials: true }));
+}
+else if (process.env.ENV_MODE === "PROD") {
+    app.use(cors({ origin: ["https://yayinstocks.in"], credentials: true }));
+}
+else {
+    app.use(cors({ origin: true, credentials: true }));
+}
 app.use(morganMiddleware)
 
 // Server Listening

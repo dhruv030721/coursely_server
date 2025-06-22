@@ -3,7 +3,8 @@ import bcrypt from 'bcrypt';
 import { User } from 'yayinstocks_shared_module';
 import path from "path";
 import ejs from "ejs";
-import { sendMail } from 'yayinstocks_shared_module/utility/sendMail';
+import { sendMail } from 'yayinstocks_shared_module';
+import { COMPANY_CONFIG } from 'yayinstocks_shared_module';
 
 export const signupController = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -37,14 +38,14 @@ export const signupController = async (req: Request, res: Response): Promise<voi
         
         const templatePath = path.join(__dirname, "../../emails/signup.template.ejs")
         const emailTemplate = await ejs.renderFile(templatePath, {
-            companyName: 'YAYINSTOCKS',
+            companyName: COMPANY_CONFIG.companyName,
             userName: newUser.name || 'Trader',
             userEmail: newUser.email,
-            logoUrl: 'https://res.cloudinary.com/dkkawe9gq/image/upload/v1749928897/yayinstocks_bg_transperent_web_ahlhee.png',
+            logoUrl: COMPANY_CONFIG.logoUrl,
             successCount: '5,000',
             coursesUrl: 'https://yayinstocks.in/courses',
             mutualFundUrl: 'https://yayinstocks.in/mutual-funds',
-            websiteUrl: 'https://yayinstocks.in',
+            websiteUrl: COMPANY_CONFIG.websiteUrl,
             linkedinUrl: 'https://linkedin.com/company/yayinstocks',
             youtubeUrl: 'https://youtube.com/@yayinstocks',
             telegramUrl: 'https://t.me/yayinstocks',
@@ -53,7 +54,7 @@ export const signupController = async (req: Request, res: Response): Promise<voi
         });
 
         const mailOptions = {
-            from: "Yayinstock <support@yayinstocks.in>",
+            from: process.env.MAIL_OPTION_FROM as string,
             to: email,
             subject: "📈 Welcome to YayinStocks - Where traders become winners",
             html: emailTemplate
