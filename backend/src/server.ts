@@ -5,6 +5,7 @@ import routes from "./routes/router"
 import { logger, morganMiddleware } from "yayinstocks_shared_module"
 import { initalizeDBPackage } from "yayinstocks_shared_module"
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 // Load environment variables
 dotenv.config()
@@ -14,6 +15,7 @@ const app: Application = express();
 
 // Middlewares
 app.use(express.json());
+app.use(cookieParser());
 if (process.env.ENV_MODE === "QA") {
     app.use(cors({ origin: ["https://qa1.yayinstocks.in"], credentials: true }));
 }

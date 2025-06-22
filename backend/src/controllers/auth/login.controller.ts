@@ -46,15 +46,15 @@ export const loginController = async (req: Request, res: Response): Promise<void
         }
 
         res.cookie("auth_token", authToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 900000, 
-            sameSite: 'none'
+            maxAge: 900000,
+            sameSite: process.env.ENV_MODE === 'PROD' ? 'none' : 'lax',
+            secure: process.env.ENV_MODE === 'PROD' ? true : false,
+            httpOnly: false,
         }).cookie("refresh_token", refreshToken, {
+            maxAge: 7 * 24 * 3600000,
+            sameSite: process.env.ENV_MODE === 'PROD' ? 'none' : 'lax',
+            secure: process.env.ENV_MODE === 'PROD' ? true : false,
             httpOnly: true,
-            secure: true,
-            maxAge: 7 * 24 * 3600000, 
-            sameSite: 'none'
         }).status(200).json({
             success: true,
             message: 'Login successful',
