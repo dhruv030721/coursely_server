@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec ts-node src/server.ts",
-    "build": "tsc"
+    "build": "ts-node ./node_modules/typescript/lib/tsc.js"
   },
   "keywords": [],
   "author": "",
@@ -23,16 +23,18 @@
     "morgan": "^1.10.0",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
-    "yayinstocks_shared_module": "file:../shared"
+    "yayinstocks_shared_module": "github:dhruv030721/yayinstocks_shared_module"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.19",
     "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.0",
+    "@types/fluent-ffmpeg": "^2.1.27",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.1",
+    "@types/nodemailer": "^6.4.17",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
