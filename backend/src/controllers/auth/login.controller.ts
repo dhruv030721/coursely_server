@@ -12,7 +12,7 @@ const generateRefreshToken = (payload: { email: string }): string => {
     return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: '7d' });
 };
 
-export const loginController = async (req: Request, res: Response): Promise<void> => {
+const loginController = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -58,6 +58,9 @@ export const loginController = async (req: Request, res: Response): Promise<void
         }).status(200).json({
             success: true,
             message: 'Login successful',
+            data: {
+                email: user.email,
+            },
             token: authToken
         });
         logger.info(`User ${user.email} logged in successfully`);
@@ -69,3 +72,5 @@ export const loginController = async (req: Request, res: Response): Promise<void
         return;
     }
 }
+
+export default loginController;

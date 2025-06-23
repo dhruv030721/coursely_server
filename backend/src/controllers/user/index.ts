@@ -1,13 +1,14 @@
 import express from 'express';
 import { forgotPasswordController, changePasswordController } from './forgotPassword.controller';
-import { refreshTokenController } from '../auth/refreshToken.controller';
+import signupController from './signup.controller';
+import getUserController from './getUser.controller';
 
 const userRouter = express.Router();
+
+userRouter.post('/signup', signupController);
 userRouter.post('/forgot_password', forgotPasswordController);
 userRouter.post('/change_password', changePasswordController);
-userRouter.post('/refresh_token', refreshTokenController);
+userRouter.get('/get_user/:email', getUserController);
 
 export default userRouter;
 
-export * from './signup.controller';
-export * from './forgotPassword.controller';

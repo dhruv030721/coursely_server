@@ -6,7 +6,7 @@ import ejs from "ejs";
 import { sendMail } from 'yayinstocks_shared_module';
 import { COMPANY_CONFIG } from 'yayinstocks_shared_module';
 
-export const signupController = async (req: Request, res: Response): Promise<void> => {
+const signupController = async (req: Request, res: Response): Promise<void> => {
     try {
         const { name, email, password, age, contact } = req.body;
         if (!email || !password || !name || !age || !contact) {
@@ -74,3 +74,5 @@ export const signupController = async (req: Request, res: Response): Promise<voi
         return;
     }
 }
+
+export default signupController;
