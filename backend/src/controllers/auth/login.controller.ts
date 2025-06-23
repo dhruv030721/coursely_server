@@ -47,12 +47,12 @@ const loginController = async (req: Request, res: Response): Promise<void> => {
 
         res.cookie("auth_token", authToken, {
             maxAge: 900000,
-            sameSite: process.env.ENV_MODE === 'PROD' ? 'none' : 'lax',
+            sameSite: process.env.ENV_MODE === 'PROD' || process.env.ENV_MODE === 'QA' ? 'none' : 'lax',
             secure: process.env.ENV_MODE === 'PROD' ? true : false,
             httpOnly: false,
         }).cookie("refresh_token", refreshToken, {
             maxAge: 7 * 24 * 3600000,
-            sameSite: process.env.ENV_MODE === 'PROD' ? 'none' : 'lax',
+            sameSite: process.env.ENV_MODE === 'PROD' || process.env.ENV_MODE === 'QA' ? 'none' : 'lax',
             secure: process.env.ENV_MODE === 'PROD' ? true : false,
             httpOnly: true,
         }).status(200).json({
