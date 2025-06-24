@@ -1,4 +1,4 @@
-import e, { Request, Response } from 'express';
+import { CookieOptions, Request, Response } from 'express';
 import { logger } from 'yayinstocks_shared_module';
 import { User } from 'yayinstocks_shared_module';
 import jwt from 'jsonwebtoken';
@@ -45,17 +45,27 @@ const loginController = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        res.cookie("auth_token", authToken, {
+        
+        console.log(process.env.ENV_MODE);
+
+        const authTokenCookieOptions = {
             maxAge: 900000,
             sameSite: process.env.ENV_MODE === 'PROD' || process.env.ENV_MODE === 'QA' ? 'none' : 'lax',
             secure: process.env.ENV_MODE === 'PROD' || process.env.ENV_MODE === 'QA' ? true : false,
             httpOnly: false,
-        }).cookie("refresh_token", refreshToken, {
+        }
+        
+        const refreshTokenCookieOptions = {
             maxAge: 7 * 24 * 3600000,
             sameSite: process.env.ENV_MODE === 'PROD' || process.env.ENV_MODE === 'QA' ? 'none' : 'lax',
             secure: process.env.ENV_MODE === 'PROD' || process.env.ENV_MODE === 'QA' ? true : false,
             httpOnly: true,
-        }).status(200).json({
+        }   
+
+        console.log(authTokenCookieOptions);
+        console.log(refreshTokenCookieOptions);
+
+        res.cookie("auth_token", authToken, authTokenCookieOptions as CookieOptions).cookie("refresh_token", refreshToken, refreshTokenCookieOptions as CookieOptions).status(200).json({
             success: true,
             message: 'Login successful',
             data: {
