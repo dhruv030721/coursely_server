@@ -45,9 +45,6 @@ const loginController = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        
-        console.log(process.env.ENV_MODE);
-
         const authTokenCookieOptions = {
             maxAge: 900000,
             sameSite: process.env.ENV_MODE === 'PROD' || process.env.ENV_MODE === 'QA' ? 'none' : 'lax',

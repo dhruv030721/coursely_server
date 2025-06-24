@@ -17,7 +17,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(cookieParser());
 if (process.env.ENV_MODE === "QA") {
-    app.use(cors({ origin: ["https://qa1.yayinstocks.in"], credentials: true }));
+    app.use(cors({ origin: ["https://qa1.yayinstocks.in", "https://qa-admin.yayinstocks.in"], credentials: true }));
 }
 else if (process.env.ENV_MODE === "PROD") {
     app.use(cors({ origin: ["https://yayinstocks.in"], credentials: true }));
