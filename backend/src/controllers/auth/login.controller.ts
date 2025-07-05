@@ -45,36 +45,29 @@ const loginController = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const authTokenCookieOptions: CookieOptions = {
-            maxAge: 900000,
-            sameSite: 'lax',
-            secure: true,
-            httpOnly: false,
-            path: '/',
-        }
-
         const refreshTokenCookieOptions: CookieOptions = {
-            maxAge: 7 * 24 * 3600000,
-            sameSite: 'lax',
-            secure: true,
             httpOnly: true,
-            path: '/',
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            sameSite: 'strict'
         }
 
-        res.cookie("auth_token", authToken, authTokenCookieOptions as CookieOptions).cookie("refresh_token", refreshToken, refreshTokenCookieOptions as CookieOptions).status(200).json({
+        logger.info(`User ${user.email} logged in successfully`);
+        res.cookie("refresh_token", refreshToken, refreshTokenCookieOptions).status(200).json({
             success: true,
             message: 'Login successful',
             data: {
                 email: user.email,
             },
-            token: authToken
+            auth_token: authToken,
         });
-        logger.info(`User ${user.email} logged in successfully`);
         return;
 
     } catch (error) {
+        if(!res.headersSent) {
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
         logger.error('Error in [login controller]:', error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
         return;
     }
 }
