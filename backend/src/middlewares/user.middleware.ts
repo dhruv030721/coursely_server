@@ -4,7 +4,7 @@ import { User, logger } from 'yayinstocks_shared_module';
 const userMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const email = req.body.email;
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email });  
 
         if (!user) {
             res.status(401).json({ message: 'User not found!' });

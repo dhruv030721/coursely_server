@@ -40,6 +40,11 @@ const loginController = async (req: Request, res: Response): Promise<void> => {
         const authToken = generateAuthToken(payload);
         const refreshToken = generateRefreshToken(payload);
 
+        await User.updateOne(
+            { email: user.email },
+            { $set: { refreshToken } }
+        );
+
         if (!authToken || !refreshToken) {
             res.status(500).json({ success: false, message: 'Failed to generate tokens' });
             return;
