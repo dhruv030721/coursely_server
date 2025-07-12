@@ -24,7 +24,7 @@
     "morgan": "^1.10.0",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
-    "yayinstocks_shared_module": "file:../yayinstocks_shared_module"
+    "yayinstocks_shared_module": "file:../yayinstocks_shared_module/dist"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

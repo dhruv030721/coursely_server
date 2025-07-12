@@ -1,0 +1,35 @@
+# ---------- Build Stage ----------
+FROM node:18 as build-stage
+
+WORKDIR /app
+
+# Copy backend and shared module
+COPY backend ./backend
+COPY yayinstocks_shared_module ./backend/yayinstocks_shared_module/dist
+
+# Patch the package.json to fix the path for Docker
+RUN sed -i 's|file:../yayinstocks_shared_module|./yayinstocks_shared_module|' ./backend/package.json
+
+WORKDIR /app/backend
+
+RUN npm install
+RUN npm run build
+
+# ---------- Production Stage ----------
+FROM node:18-slim as prod-stage
+
+WORKDIR /app
+
+COPY backend ./backend
+COPY yayinstocks_shared_module ./backend/yayinstocks_shared_module/dist
+
+# Patch path again in prod image
+RUN sed -i 's|file:../yayinstocks_shared_module|./yayinstocks_shared_module|' ./backend/package.json
+
+WORKDIR /app/backend
+
+RUN npm install --production
+COPY --from=build-stage /app/backend/dist ./dist
+
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
