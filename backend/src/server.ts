@@ -1,14 +1,14 @@
-import { Application, Request, Response } from "express"
-import express from "express"
-import dotenv from "dotenv"
-import routes from "./routes/router"
-import { logger, morganMiddleware } from "yayinstocks_shared_module"
-import { initalizeDBPackage } from "yayinstocks_shared_module"
+import { Application, Request, Response } from "express";
+import express from "express";
+import dotenv from "dotenv";
+import routes from "./routes/router";
+import { logger, morganMiddleware } from "yayinstocks_shared_module";
+import { initalizeDBPackage } from "yayinstocks_shared_module";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
 // Load environment variables
-dotenv.config()
+dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 const app: Application = express();
@@ -17,27 +17,30 @@ const app: Application = express();
 app.use(express.json());
 app.use(cookieParser());
 if (process.env.ENV_MODE === "QA") {
-    app.use(cors({ origin: ["https://qa1.yayinstocks.in", "https://qa-admin.yayinstocks.in"], credentials: true }));
+  app.use(
+    cors({
+      origin: ["https://qa.yayinstocks.in", "https://qa-admin.yayinstocks.in"],
+      credentials: true,
+    })
+  );
+} else if (process.env.ENV_MODE === "PROD") {
+  app.use(cors({ origin: ["https://yayinstocks.in"], credentials: true }));
+} else {
+  app.use(cors({ origin: true, credentials: true }));
 }
-else if (process.env.ENV_MODE === "PROD") {
-    app.use(cors({ origin: ["https://yayinstocks.in"], credentials: true }));
-}
-else {
-    app.use(cors({ origin: true, credentials: true }));
-}
-app.use(morganMiddleware)
+app.use(morganMiddleware);
 
 // Server Listening
 app.listen(PORT, () => {
-    logger.info(`Server started on ${PORT} successfully!`)
+  logger.info(`Server started on ${PORT} successfully!`);
 
-    // Database connection 
-    initalizeDBPackage()
+  // Database connection
+  initalizeDBPackage();
 
-    routes(app)
-})
+  routes(app);
+});
 
 // Server main route
-app.get('/', (req: Request, res: Response) => {
-    res.send('Yayinstocks server running....')
-})
+app.get("/", (req: Request, res: Response) => {
+  res.send("Yayinstocks server running....");
+});

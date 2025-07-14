@@ -1,7 +1,11 @@
-import express, { Application } from 'express';
-import dotenv from 'dotenv';
-import { ensureDirectories } from 'yayinstocks_shared_module/utility/utility';
-import { logger, morganMiddleware } from "yayinstocks_shared_module/utility/logger";
+import express, { Application } from "express";
+import dotenv from "dotenv";
+import {
+  logger,
+  morganMiddleware,
+  initalizeDBPackage,
+  ensureDirectories,
+} from "yayinstocks_shared_module";
 import router from "./routes/router";
 
 dotenv.config();
@@ -15,6 +19,8 @@ app.use(router);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, async () => {
-    await ensureDirectories();
-    logger.info(`Video Processing Server is starting on port ${PORT}`);
+  await ensureDirectories();
+  logger.info(`Video Processing Server is starting on port ${PORT}`);
+
+  initalizeDBPackage();
 });
