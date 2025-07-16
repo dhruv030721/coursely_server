@@ -1,5 +1,10 @@
 import express from "express";
-import { adminMiddleware, authMiddleware } from "../../middlewares";
+import {
+  adminMiddleware,
+  authMiddleware,
+  convertToWebp,
+  upload,
+} from "../../middlewares";
 import {
   createDiscount,
   getDiscount,
@@ -7,9 +12,21 @@ import {
   verifyDiscount,
   updateDiscount,
 } from "./discount";
+import { createCourse, getCourse } from "./course";
 
 import { getUser } from "./user";
 const adminRouter = express.Router();
+
+// ----------------------------------Course Routes----------------------------------
+adminRouter.post(
+  "/course",
+  authMiddleware,
+  adminMiddleware,
+  upload.single("thumbnail"),
+  convertToWebp,
+  createCourse
+);
+adminRouter.get("/course", getCourse);
 
 // ----------------------------------Discount Routes----------------------------------
 adminRouter.post("/discount", authMiddleware, adminMiddleware, createDiscount);

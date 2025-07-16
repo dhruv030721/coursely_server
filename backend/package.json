@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.0",
     "morgan": "^1.10.0",
+    "multer": "^2.0.1",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "yayinstocks_shared_module": "file:../yayinstocks_shared_module/dist"
@@ -35,9 +36,12 @@
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/morgan": "^1.9.9",
+    "@types/multer": "^2.0.0",
     "@types/node": "^22.10.1",
     "@types/nodemailer": "^6.4.17",
+    "@types/sharp": "^0.31.1",
     "copyfiles": "^2.4.1",
+    "sharp": "^0.34.3",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }

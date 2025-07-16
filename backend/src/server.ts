@@ -29,7 +29,7 @@ if (process.env.ENV_MODE === "QA") {
   app.use(cors({ origin: true, credentials: true }));
 }
 app.use(morganMiddleware);
-
+app.use("/images", express.static("src/images"));
 // Server Listening
 app.listen(PORT, () => {
   logger.info(`Server started on ${PORT} successfully!`);
