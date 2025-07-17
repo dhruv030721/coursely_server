@@ -1,47 +1,39 @@
 import mongoose from "mongoose";
-declare const CourseVideo: mongoose.Model<{
-    description: string;
-    title: string;
-    sequence: number;
-    video_playback_time: string;
-    video_url: string;
-}, {}, {}, {}, mongoose.Document<unknown, {}, {
-    description: string;
-    title: string;
-    sequence: number;
-    video_playback_time: string;
-    video_url: string;
-}, {}> & {
-    description: string;
-    title: string;
-    sequence: number;
-    video_playback_time: string;
-    video_url: string;
-} & {
-    _id: mongoose.Types.ObjectId;
-} & {
-    __v: number;
-}, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
-    description: string;
-    title: string;
-    sequence: number;
-    video_playback_time: string;
-    video_url: string;
-}, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
-    description: string;
-    title: string;
-    sequence: number;
-    video_playback_time: string;
-    video_url: string;
-}>, {}> & mongoose.FlatRecord<{
-    description: string;
-    title: string;
-    sequence: number;
-    video_playback_time: string;
-    video_url: string;
-}> & {
-    _id: mongoose.Types.ObjectId;
-} & {
-    __v: number;
-}>>;
-export default CourseVideo;
+interface CourseVideoDocument extends mongoose.Document {
+  title: string;
+  sequence: number;
+  video_playback_time: string;
+  description: string;
+  video_url: string;
+}
+declare const courseVideoSchema: mongoose.Schema<
+  CourseVideoDocument,
+  mongoose.Model<
+    CourseVideoDocument,
+    any,
+    any,
+    any,
+    mongoose.Document<unknown, any, CourseVideoDocument, any> &
+      CourseVideoDocument &
+      Required<{
+        _id: unknown;
+      }> & {
+        __v: number;
+      },
+    any
+  >,
+  {},
+  {},
+  {},
+  {},
+  mongoose.DefaultSchemaOptions,
+  CourseVideoDocument,
+  mongoose.Document<unknown, {}, mongoose.FlatRecord<CourseVideoDocument>, {}> &
+    mongoose.FlatRecord<CourseVideoDocument> &
+    Required<{
+      _id: unknown;
+    }> & {
+      __v: number;
+    }
+>;
+export { CourseVideoDocument, courseVideoSchema };

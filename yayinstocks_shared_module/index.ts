@@ -2,9 +2,8 @@ import { userSchema, UserDocument } from "./models/user.model";
 import { otpSchema, OtpDocument } from "./models/otp.model";
 import { contactUsSchema, ContactUsDocument } from "./models/contactUs.model";
 import { subscribeSchema, SubscribeDocument } from "./models/subscribe.model";
-import courseVideo from "./models/courseVideo.model";
 import { DiscountDocument, discountSchema } from "./models/discount.model";
-import course from "./models/course.model";
+import { CourseDocument, courseSchema } from "./models/course.model";
 import courseReview from "./models/courseReview.model";
 import coursePurchase from "./models/coursePurchase.model";
 import { connectDB } from "./config/mongodb";
@@ -15,6 +14,7 @@ let OTP: mongoose.Model<OtpDocument>;
 let Subscribe: mongoose.Model<SubscribeDocument>;
 let ContactUs: mongoose.Model<ContactUsDocument>;
 let Discount: mongoose.Model<DiscountDocument>;
+let Course: mongoose.Model<CourseDocument>;
 
 const initalizeDBPackage = async () => {
   await connectDB();
@@ -24,6 +24,7 @@ const initalizeDBPackage = async () => {
   Subscribe = mongoose.model("Subscribe", subscribeSchema);
   ContactUs = mongoose.model("ContactUs", contactUsSchema);
   Discount = mongoose.model("Discount", discountSchema);
+  Course = mongoose.model("Course", courseSchema);
 };
 
 export {
@@ -31,9 +32,8 @@ export {
   OTP,
   ContactUs,
   Subscribe,
-  courseVideo,
   Discount,
-  course,
+  Course,
   courseReview,
   coursePurchase,
   initalizeDBPackage,

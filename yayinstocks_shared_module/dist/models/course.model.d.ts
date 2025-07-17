@@ -1,101 +1,29 @@
 import mongoose from "mongoose";
-declare const Course: mongoose.Model<{
-    description: string;
+interface CourseDocument extends mongoose.Document {
     title: string;
     price: number;
-    thumbnail: number;
-    sections: mongoose.Types.DocumentArray<{
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }, mongoose.Types.Subdocument<mongoose.Types.ObjectId, any, {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }> & {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }>;
-}, {}, {}, {}, mongoose.Document<unknown, {}, {
     description: string;
-    title: string;
-    price: number;
-    thumbnail: number;
-    sections: mongoose.Types.DocumentArray<{
+    thumbnail: string;
+    sections: {
         title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }, mongoose.Types.Subdocument<mongoose.Types.ObjectId, any, {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }> & {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }>;
-}, {}> & {
-    description: string;
-    title: string;
-    price: number;
-    thumbnail: number;
-    sections: mongoose.Types.DocumentArray<{
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }, mongoose.Types.Subdocument<mongoose.Types.ObjectId, any, {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }> & {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }>;
-} & {
-    _id: mongoose.Types.ObjectId;
-} & {
-    __v: number;
-}, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
-    description: string;
-    title: string;
-    price: number;
-    thumbnail: number;
-    sections: mongoose.Types.DocumentArray<{
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }, mongoose.Types.Subdocument<mongoose.Types.ObjectId, any, {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }> & {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }>;
-}, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
-    description: string;
-    title: string;
-    price: number;
-    thumbnail: number;
-    sections: mongoose.Types.DocumentArray<{
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }, mongoose.Types.Subdocument<mongoose.Types.ObjectId, any, {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }> & {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }>;
-}>, {}> & mongoose.FlatRecord<{
-    description: string;
-    title: string;
-    price: number;
-    thumbnail: number;
-    sections: mongoose.Types.DocumentArray<{
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }, mongoose.Types.Subdocument<mongoose.Types.ObjectId, any, {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }> & {
-        title: string;
-        lectures: mongoose.Types.ObjectId[];
-    }>;
+        lectures: {
+            title: string;
+            sequence: number;
+            video_playback_time: string;
+            description: string;
+            video_url: string;
+        }[];
+    }[];
+    status: "draft" | "published";
+    featured: boolean;
+}
+declare const courseSchema: mongoose.Schema<CourseDocument, mongoose.Model<CourseDocument, any, any, any, mongoose.Document<unknown, any, CourseDocument, any> & CourseDocument & Required<{
+    _id: unknown;
 }> & {
-    _id: mongoose.Types.ObjectId;
-} & {
     __v: number;
-}>>;
-export default Course;
+}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, CourseDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<CourseDocument>, {}> & mongoose.FlatRecord<CourseDocument> & Required<{
+    _id: unknown;
+}> & {
+    __v: number;
+}>;
+export { CourseDocument, courseSchema };

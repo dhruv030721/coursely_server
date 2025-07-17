@@ -3,7 +3,7 @@ import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import ffmpeg from "fluent-ffmpeg";
 import { NextFunction, Request, Response } from "express";
-import { getVideoInfo } from "yayinstocks_shared_module";
+import { Course, getVideoInfo } from "yayinstocks_shared_module";
 import { logger } from "yayinstocks_shared_module";
 
 interface ResolutionPreset {
@@ -18,6 +18,14 @@ interface MasterPlaylistEntry {
   resolution: string;
   bandwidth: number;
   path: string;
+}
+
+interface LectureObject {
+  title: string;
+  sequence: number;
+  video_playback_time: string;
+  description: string;
+  video_url: string;
 }
 
 const resolutionPresets: ResolutionPreset[] = [
@@ -63,7 +71,7 @@ function calculateBandwidth(
 async function createMasterPlaylist(
   outputPath: string,
   resolutions: MasterPlaylistEntry[]
-): Promise<void> {
+): Promise<string> {
   let playlist = "#EXTM3U\n#EXT-X-VERSION:3\n\n";
 
   for (const resolution of resolutions) {
@@ -72,6 +80,8 @@ async function createMasterPlaylist(
   }
 
   await fs.writeFile(outputPath, playlist);
+
+  return outputPath;
 }
 
 const processVideoToHLS = async (
@@ -125,8 +135,12 @@ const processVideoToHLS = async (
         dimensions: `${preset.width}x${preset.height}`,
       });
 
-      console.log(videoId);
       try {
+        logger.info("");
+        logger.info(
+          `.............................................. PROCESSING STARTED FOR ${preset.name} ..............................................`
+        );
+        logger.info("");
         await new Promise<void>((resolve, reject) => {
           ffmpeg(inputPath)
             .addOptions([
@@ -166,13 +180,18 @@ const processVideoToHLS = async (
             })
             .on("progress", (progress: any) => {
               if (progress.percent && progress.percent % 10 < 1) {
-                logger.debug("Processing progress", {
-                  videoId,
-                  resolution: preset.name,
-                  percent: Math.round(progress.percent),
-                  fps: progress.currentFps,
-                  speed: progress.currentKbps,
-                });
+                logger.info(
+                  `Processing progress ..................... [${Math.round(
+                    progress.percent
+                  )}%] ||`,
+                  {
+                    videoId,
+                    resolution: preset.name,
+                    percent: Math.round(progress.percent),
+                    fps: progress.currentFps,
+                    speed: progress.currentKbps,
+                  }
+                );
               }
             })
             .run();
@@ -198,7 +217,7 @@ const processVideoToHLS = async (
 
     // Create master playlist
     logger.info("Creating master playlist", { videoId });
-    await createMasterPlaylist(
+    const masterPlaylistPath = await createMasterPlaylist(
       path.join(outputDir, "master.m3u8"),
       masterPlaylist
     );
@@ -214,7 +233,7 @@ const processVideoToHLS = async (
     return {
       videoId,
       resolutions: applicablePresets.map((p) => p.name),
-      masterPlaylist: `${videoId}/master.m3u8`,
+      masterPlaylist: masterPlaylistPath,
     };
   } catch (error: any) {
     const totalDuration = (Date.now() - startTime) / 1000;
@@ -239,6 +258,27 @@ const processVideo = async (
       res.status(400).json({ success: false, message: "No file uploaded!" });
       return;
     }
+    const {
+      courseId,
+      sectionId,
+      lectureTitle,
+      lectureSequence,
+      lecturePlaybackTime,
+      lectureDescription,
+    } = req.body;
+
+    const course = await Course.findOne(
+      {
+        _id: courseId,
+        "sections._id": sectionId,
+      },
+      { "sections.$": 1 }
+    );
+    if (!course) {
+      res.status(404).json({ success: false, message: "Course not found!" });
+      return;
+    }
+
     const videoId = uuidv4();
     const inputFilePath = req.file.path;
     const outputDir = path.join("outputs", videoId);
@@ -257,10 +297,24 @@ const processVideo = async (
 
     const result = await processingPromise;
 
+    const lectureObject: LectureObject = {
+      title: lectureTitle,
+      sequence: lectureSequence,
+      video_playback_time: lecturePlaybackTime,
+      description: lectureDescription,
+      video_url: result.masterPlaylist,
+    };
+
+    await Course.updateOne(
+      { _id: courseId, "sections._id": sectionId },
+      { $push: { "sections.$.lectures": lectureObject } }
+    );
+
     res.json({
       success: true,
       videoId: result.videoId,
       resolutions: result.resolutions,
+      masterPlaylist: result.masterPlaylist,
       message: "Video processed successfully!",
     });
     return;

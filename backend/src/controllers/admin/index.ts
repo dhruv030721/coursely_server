@@ -12,7 +12,7 @@ import {
   verifyDiscount,
   updateDiscount,
 } from "./discount";
-import { createCourse, getCourse } from "./course";
+import { createCourse, getCourse, createSection } from "./course";
 
 import { getUser } from "./user";
 const adminRouter = express.Router();
@@ -27,6 +27,12 @@ adminRouter.post(
   createCourse
 );
 adminRouter.get("/course", getCourse);
+adminRouter.post(
+  "/course/section",
+  authMiddleware,
+  adminMiddleware,
+  createSection
+);
 
 // ----------------------------------Discount Routes----------------------------------
 adminRouter.post("/discount", authMiddleware, adminMiddleware, createDiscount);

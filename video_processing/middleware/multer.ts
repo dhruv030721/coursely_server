@@ -34,7 +34,7 @@ const upload = multer({
     if (extname) {
       return cb(null, true);
     } else {
-      cb(new Error("Only images are allowed!"));
+      cb(new Error("Only .mp4 files are allowed!"));
     }
   },
 });

@@ -26,16 +26,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initalizeDBPackage = exports.coursePurchase = exports.courseReview = exports.course = exports.Discount = exports.courseVideo = exports.Subscribe = exports.ContactUs = exports.OTP = exports.User = void 0;
+exports.initalizeDBPackage = exports.coursePurchase = exports.courseReview = exports.Course = exports.Discount = exports.Subscribe = exports.ContactUs = exports.OTP = exports.User = void 0;
 const user_model_1 = require("./models/user.model");
 const otp_model_1 = require("./models/otp.model");
 const contactUs_model_1 = require("./models/contactUs.model");
 const subscribe_model_1 = require("./models/subscribe.model");
-const courseVideo_model_1 = __importDefault(require("./models/courseVideo.model"));
-exports.courseVideo = courseVideo_model_1.default;
 const discount_model_1 = require("./models/discount.model");
-const course_model_1 = __importDefault(require("./models/course.model"));
-exports.course = course_model_1.default;
+const course_model_1 = require("./models/course.model");
 const courseReview_model_1 = __importDefault(require("./models/courseReview.model"));
 exports.courseReview = courseReview_model_1.default;
 const coursePurchase_model_1 = __importDefault(require("./models/coursePurchase.model"));
@@ -47,6 +44,7 @@ let OTP;
 let Subscribe;
 let ContactUs;
 let Discount;
+let Course;
 const initalizeDBPackage = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, mongodb_1.connectDB)();
     exports.User = User = mongoose_1.default.model("User", user_model_1.userSchema);
@@ -54,6 +52,7 @@ const initalizeDBPackage = () => __awaiter(void 0, void 0, void 0, function* () 
     exports.Subscribe = Subscribe = mongoose_1.default.model("Subscribe", subscribe_model_1.subscribeSchema);
     exports.ContactUs = ContactUs = mongoose_1.default.model("ContactUs", contactUs_model_1.contactUsSchema);
     exports.Discount = Discount = mongoose_1.default.model("Discount", discount_model_1.discountSchema);
+    exports.Course = Course = mongoose_1.default.model("Course", course_model_1.courseSchema);
 });
 exports.initalizeDBPackage = initalizeDBPackage;
 __exportStar(require("./utility"), exports);
