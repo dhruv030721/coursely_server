@@ -21,7 +21,21 @@ const createCourse = async (req: Request, res: Response) => {
       return;
     }
 
-    const thumbnailUrl = path.join("images", thumbnail.filename);
+    const baseUrl =
+      process.env.ENV_MODE == "QA"
+        ? process.env.BD_URL_QA
+        : process.env.ENV_MODE == "PROD"
+        ? process.env.BD_URL_PROD
+        : process.env.BD_URL_DEV;
+
+    if (!baseUrl) {
+      throw new Error("Base URL for environment is not defined.");
+    }
+
+    const thumbnailUrl = new URL(
+      `/images/${thumbnail.filename}`,
+      baseUrl
+    ).toString();
 
     const course = await Course.create({
       title,

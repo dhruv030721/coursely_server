@@ -25,10 +25,12 @@ const createSection = async (
 
     await course.save();
 
+    const section = course.sections[course.sections.length - 1];
+
     res.status(201).json({
       success: true,
       message: "Section created successfully",
-      course,
+      section,
     });
   } catch (error) {
     logger.error("Error in createSection controller");

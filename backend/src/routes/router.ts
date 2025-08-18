@@ -9,7 +9,6 @@ const routes = (app: Application) => {
     app.use("/api/v1", webRouter);
     app.use("/api/v1", authRouter);
     app.use("/api/v1/admin", adminRouter);
-
 }
 
 export default routes;

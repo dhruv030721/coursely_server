@@ -86,7 +86,14 @@ async function createMasterPlaylist(
 
 const processVideoToHLS = async (
   inputPath: string,
-  outputDir: string
+  outputDir: string,
+  courseId: string,
+  sectionId: string,
+  lectureTitle: string,
+  lectureSequence: number,
+  lecturePlaybackTime: string,
+  lectureDescription: string,
+  inputFilePath: string
 ): Promise<{
   videoId: string;
   resolutions: string[];
@@ -230,6 +237,37 @@ const processVideoToHLS = async (
       masterPlaylist: `${videoId}/master.m3u8`,
     });
 
+    const baseUrl =
+      process.env.ENV_MODE == "QA"
+        ? process.env.BD_URL_QA
+        : process.env.ENV_MODE == "PROD"
+          ? process.env.BD_URL_PROD
+          : process.env.BD_URL_DEV;
+
+    if (!baseUrl) {
+      throw new Error("Base URL for environment is not defined.");
+    }
+
+    const video_path = new URL(
+      `${masterPlaylistPath}`,
+      baseUrl
+    ).toString();
+
+    const lectureObject: LectureObject = {
+      title: lectureTitle,
+      sequence: lectureSequence,
+      video_playback_time: lecturePlaybackTime,
+      description: lectureDescription,
+      video_url: video_path,
+    };
+
+    await Course.updateOne(
+      { _id: courseId, "sections._id": sectionId },
+      { $push: { "sections.$.lectures": lectureObject } }
+    );
+
+    fs.unlink(inputFilePath);
+
     return {
       videoId,
       resolutions: applicablePresets.map((p) => p.name),
@@ -285,36 +323,24 @@ const processVideo = async (
 
     await fs.mkdir(outputDir, { recursive: true });
 
-    const processingPromise = processVideoToHLS(inputFilePath, outputDir)
-      .then(async (result) => {
-        await fs.unlink(inputFilePath);
-        return result;
-      })
-      .catch(async (error) => {
-        await fs.unlink(inputFilePath);
-        throw error;
-      });
+    console.log("Process started");
 
-    const result = await processingPromise;
-
-    const lectureObject: LectureObject = {
-      title: lectureTitle,
-      sequence: lectureSequence,
-      video_playback_time: lecturePlaybackTime,
-      description: lectureDescription,
-      video_url: result.masterPlaylist,
-    };
-
-    await Course.updateOne(
-      { _id: courseId, "sections._id": sectionId },
-      { $push: { "sections.$.lectures": lectureObject } }
+    processVideoToHLS(
+      inputFilePath,
+      outputDir,
+      courseId,
+      sectionId,
+      lectureTitle,
+      lectureSequence,
+      lecturePlaybackTime,
+      lectureDescription,
+      inputFilePath
     );
+
+    console.log("Process end");
 
     res.json({
       success: true,
-      videoId: result.videoId,
-      resolutions: result.resolutions,
-      masterPlaylist: result.masterPlaylist,
       message: "Video processed successfully!",
     });
     return;

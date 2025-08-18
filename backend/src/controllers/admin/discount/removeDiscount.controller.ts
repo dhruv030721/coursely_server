@@ -9,7 +9,13 @@ const removeDiscount = async (req: Request, res: Response): Promise<void> => {
   try {
     const discountId = req.body.discountId;
 
-    checkValidObjectId(discountId, res);
+    if (!checkValidObjectId(discountId)) {
+      res.status(403).json({
+        success: false,
+        message: "Invalid ID!",
+      });
+      return;
+    }
 
     if (!discountId) {
       res.status(403).json({

@@ -6,6 +6,7 @@ import { logger, morganMiddleware } from "yayinstocks_shared_module";
 import { initalizeDBPackage } from "yayinstocks_shared_module";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 // Load environment variables
 dotenv.config();
@@ -28,6 +29,17 @@ if (process.env.ENV_MODE === "QA") {
 } else {
   app.use(cors({ origin: true, credentials: true }));
 }
+
+app.use(
+  "/api/video-service",
+  createProxyMiddleware({
+    target: "http://localhost:4001",
+    changeOrigin: true,
+    pathRewrite: { "^/api/video-service": "" },
+    secure: true,
+  })
+);
+
 app.use(morganMiddleware);
 app.use("/images", express.static("src/images"));
 // Server Listening

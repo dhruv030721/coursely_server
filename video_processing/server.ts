@@ -11,10 +11,10 @@ import router from "./routes/router";
 dotenv.config();
 
 const app: Application = express();
-
 app.use(morganMiddleware);
 app.use(express.json());
 app.use(router);
+app.use("/videos", express.static("outputs"));
 
 const PORT = process.env.PORT || 3000;
 

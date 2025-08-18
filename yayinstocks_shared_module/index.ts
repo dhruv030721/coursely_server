@@ -4,6 +4,7 @@ import { contactUsSchema, ContactUsDocument } from "./models/contactUs.model";
 import { subscribeSchema, SubscribeDocument } from "./models/subscribe.model";
 import { DiscountDocument, discountSchema } from "./models/discount.model";
 import { CourseDocument, courseSchema } from "./models/course.model";
+import { CartDocument, cartSchema } from "./models/cart.model"
 import courseReview from "./models/courseReview.model";
 import coursePurchase from "./models/coursePurchase.model";
 import { connectDB } from "./config/mongodb";
@@ -15,6 +16,7 @@ let Subscribe: mongoose.Model<SubscribeDocument>;
 let ContactUs: mongoose.Model<ContactUsDocument>;
 let Discount: mongoose.Model<DiscountDocument>;
 let Course: mongoose.Model<CourseDocument>;
+let Cart: mongoose.Model<CartDocument>;
 
 const initalizeDBPackage = async () => {
   await connectDB();
@@ -25,6 +27,7 @@ const initalizeDBPackage = async () => {
   ContactUs = mongoose.model("ContactUs", contactUsSchema);
   Discount = mongoose.model("Discount", discountSchema);
   Course = mongoose.model("Course", courseSchema);
+  Cart = mongoose.model("Cart", cartSchema);
 };
 
 export {
@@ -34,6 +37,7 @@ export {
   Subscribe,
   Discount,
   Course,
+  Cart,
   courseReview,
   coursePurchase,
   initalizeDBPackage,
