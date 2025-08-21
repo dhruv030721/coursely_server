@@ -25,6 +25,12 @@ const contactUsSchema = new mongoose_1.default.Schema({
     message: {
         type: String,
         required: true,
+    },
+    status: {
+        type: String,
+        required: true,
+        enum: ["pending", "resolved", "rejected"],
+        default: "pending"
     }
 }, {
     timestamps: true,

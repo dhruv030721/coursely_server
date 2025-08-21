@@ -12,25 +12,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const yayinstocks_shared_module_1 = require("yayinstocks_shared_module");
 const createDiscount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { code, offerText, discount } = req.body;
+        const { code, offerText, discount, status } = req.body;
         if (!code || !offerText || !discount) {
-            res.status(400).json({ success: false, message: "All fields are required." });
+            res
+                .status(400)
+                .json({ success: false, message: "All fields are required." });
             return;
         }
         const existingDiscount = yield yayinstocks_shared_module_1.Discount.findOne({ code });
         if (existingDiscount) {
-            res.status(400).json({ success: false, message: "Coupon code already exists." });
+            res
+                .status(400)
+                .json({ success: false, message: "Coupon code already exists." });
             return;
         }
         const newDiscount = yield yayinstocks_shared_module_1.Discount.create({
             code,
             offerText,
-            discount
+            discount,
+            status,
         });
         res.status(201).json({
             success: true,
             message: "Coupon added successfully.",
-            data: newDiscount
+            data: newDiscount,
         });
         return;
     }

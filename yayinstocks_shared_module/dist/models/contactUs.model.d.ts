@@ -5,6 +5,7 @@ interface ContactUsDocument extends mongoose.Document {
     contact: string;
     subject: string;
     message: string;
+    status: "pending" | "resolved" | "rejected";
 }
 declare const contactUsSchema: mongoose.Schema<ContactUsDocument, mongoose.Model<ContactUsDocument, any, any, any, mongoose.Document<unknown, any, ContactUsDocument, any> & ContactUsDocument & Required<{
     _id: unknown;

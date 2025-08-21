@@ -17,48 +17,59 @@ const yayinstocks_shared_module_2 = require("yayinstocks_shared_module");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const generateAuthToken = (payload) => {
-    return jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, { expiresIn: '15m' });
+    return jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+    });
 };
 const generateRefreshToken = (payload) => {
-    return jsonwebtoken_1.default.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+    return jsonwebtoken_1.default.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+        expiresIn: "7d",
+    });
 };
 const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            res.status(400).json({ success: false, message: 'Email and password are required' });
+            res
+                .status(400)
+                .json({ success: false, message: "Email and password are required" });
             return;
         }
         const user = yield yayinstocks_shared_module_2.User.findOne({ email });
         if (!user) {
-            res.status(404).json({ success: false, message: 'User not found' });
+            res.status(404).json({ success: false, message: "User not found" });
             return;
         }
         const isPasswordValid = yield bcrypt_1.default.compare(password, user.password);
         if (!isPasswordValid) {
-            res.status(401).json({ success: false, message: 'Invalid password' });
+            res.status(401).json({ success: false, message: "Invalid password" });
             return;
         }
         const payload = {
-            email: user.email
+            email: user.email,
         };
         const authToken = generateAuthToken(payload);
         const refreshToken = generateRefreshToken(payload);
         yield yayinstocks_shared_module_2.User.updateOne({ email: user.email }, { $set: { refreshToken } });
         if (!authToken || !refreshToken) {
-            res.status(500).json({ success: false, message: 'Failed to generate tokens' });
+            res
+                .status(500)
+                .json({ success: false, message: "Failed to generate tokens" });
             return;
         }
         const refreshTokenCookieOptions = {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === "production",
             maxAge: 7 * 24 * 60 * 60 * 1000,
-            sameSite: 'strict'
+            sameSite: "strict",
         };
         yayinstocks_shared_module_1.logger.info(`User ${user.email} logged in successfully`);
-        res.cookie("refresh_token", refreshToken, refreshTokenCookieOptions).status(200).json({
+        res
+            .cookie("refresh_token", refreshToken, refreshTokenCookieOptions)
+            .status(200)
+            .json({
             success: true,
-            message: 'Login successful',
+            message: "Login successful",
             data: {
                 email: user.email,
             },
@@ -68,9 +79,11 @@ const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
     catch (error) {
         if (!res.headersSent) {
-            res.status(500).json({ success: false, message: 'Internal server error' });
+            res
+                .status(500)
+                .json({ success: false, message: "Internal server error" });
         }
-        yayinstocks_shared_module_1.logger.error('Error in [login controller]:', error);
+        yayinstocks_shared_module_1.logger.error("Error in [login controller]:", error);
         return;
     }
 });

@@ -13,7 +13,13 @@ const yayinstocks_shared_module_1 = require("yayinstocks_shared_module");
 const removeDiscount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const discountId = req.body.discountId;
-        (0, yayinstocks_shared_module_1.checkValidObjectId)(discountId, res);
+        if (!(0, yayinstocks_shared_module_1.checkValidObjectId)(discountId)) {
+            res.status(403).json({
+                success: false,
+                message: "Invalid ID!",
+            });
+            return;
+        }
         if (!discountId) {
             res.status(403).json({
                 success: false,

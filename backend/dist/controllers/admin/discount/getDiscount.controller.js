@@ -12,14 +12,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const yayinstocks_shared_module_1 = require("yayinstocks_shared_module");
 const getDiscount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const discountId = req.query.discountId;
+        const discountCode = req.query.discountCode;
         let discountData;
-        if (discountId) {
-            discountData = yield yayinstocks_shared_module_1.Discount.findById(discountId);
+        if (discountCode !== undefined) {
+            discountData = yield yayinstocks_shared_module_1.Discount.findOne({ code: discountCode });
             if (!discountData) {
                 res.status(404).json({
-                    success: true,
+                    success: false,
                     message: "Discount not found.",
+                });
+                return;
+            }
+            if (discountData.status == "inactive") {
+                res.status(400).json({
+                    success: false,
+                    message: "Discount is inactive."
                 });
                 return;
             }
@@ -28,7 +35,7 @@ const getDiscount = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             discountData = yield yayinstocks_shared_module_1.Discount.find({});
             if (!discountData || discountData.length === 0) {
                 res.status(404).json({
-                    success: true,
+                    success: false,
                     message: "No discounts available.",
                 });
                 return;
@@ -36,11 +43,12 @@ const getDiscount = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         res.status(200).json({
             success: true,
+            message: "Discount fetched successfully.",
             data: discountData,
         });
     }
     catch (error) {
-        yayinstocks_shared_module_1.logger.error("Error fetching discount:", error);
+        yayinstocks_shared_module_1.logger.error("Error in [getDiscount]:", error);
         res.status(500).json({
             success: false,
             message: "Internal server error.",

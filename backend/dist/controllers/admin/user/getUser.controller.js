@@ -13,17 +13,24 @@ const yayinstocks_shared_module_1 = require("yayinstocks_shared_module");
 const yayinstocks_shared_module_2 = require("yayinstocks_shared_module");
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield yayinstocks_shared_module_2.User.find({ role: yayinstocks_shared_module_1.roleENum.USER })
-            .select("-password")
-            .select("-refreshToken")
-            .select("_id name email phoneNumber createdAt");
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+        const [users, total] = yield Promise.all([
+            yayinstocks_shared_module_2.User.find({ role: yayinstocks_shared_module_1.roleENum.USER })
+                .select("-password -refreshToken")
+                .select("_id name email phoneNumber createdAt")
+                .skip(skip)
+                .limit(limit),
+            yayinstocks_shared_module_2.User.countDocuments({ role: yayinstocks_shared_module_1.roleENum.USER }),
+        ]);
         if (users.length === 0) {
             res.status(404).json({ success: true, message: "No user found." });
             return;
         }
         res.status(200).json({
             success: true,
-            message: "User fetched successfully.",
+            message: "Users fetched successfully.",
             data: users,
         });
         return;

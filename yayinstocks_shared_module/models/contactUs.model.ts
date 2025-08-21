@@ -6,6 +6,7 @@ interface ContactUsDocument extends mongoose.Document {
     contact: string;
     subject: string;
     message: string;
+    status: "pending" | "resolved" | "rejected";
 }
 
 const contactUsSchema = new mongoose.Schema<ContactUsDocument>({
@@ -28,6 +29,12 @@ const contactUsSchema = new mongoose.Schema<ContactUsDocument>({
     message: {
         type: String,
         required: true,
+    },
+    status: {
+        type: String,
+        required: true,
+        enum: ["pending", "resolved", "rejected"],
+        default: "pending"
     }
 }, {
     timestamps: true,
