@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch './**/*.ts' --exec ts-node server.ts",
-    "build": "npx tsc"
+    "build": "ts-node ./node_modules/typescript/lib/tsc.js"
   },
   "keywords": [],
   "author": "",
@@ -18,8 +18,8 @@
     "mongoose": "^8.15.1",
     "morgan": "^1.10.0",
     "multer": "^2.0.0",
-    "tsc": "^2.0.4",
     "uuid": "^11.1.0",
+    "ts-node": "^10.9.2",
     "winston": "^3.17.0",
     "yayinstocks_shared_module": "file:../yayinstocks_shared_module/dist"
   },
@@ -30,7 +30,7 @@
     "@types/multer": "^1.4.12",
     "@types/node": "^22.15.29",
     "nodemon": "^3.1.10",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.2"
   }
 }

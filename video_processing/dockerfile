@@ -1,0 +1,45 @@
+# ---------- Build Stage ----------
+FROM node:18 as build-stage
+
+WORKDIR /app
+
+# Copy video_processing and shared module
+COPY video_processing ./video_processing
+COPY yayinstocks_shared_module ./video_processing/yayinstocks_shared_module/dist
+
+# Patch the package.json to fix the path for Docker
+RUN sed -i 's|file:../yayinstocks_shared_module|./yayinstocks_shared_module|' ./video_processing/package.json
+
+WORKDIR /app/video_processing
+
+RUN npm install
+RUN npm run build
+
+# ---------- Production Stage ----------
+FROM node:18-slim as prod-stage
+
+WORKDIR /app
+
+COPY video_processing ./video_processing
+COPY yayinstocks_shared_module ./video_processing/yayinstocks_shared_module/dist
+
+# Patch path again in prod image
+RUN sed -i 's|file:../yayinstocks_shared_module|./yayinstocks_shared_module|' ./video_processing/package.json
+
+WORKDIR /app/video_processing
+
+# Install build tools + ffmpeg + sharp dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    ffmpeg \
+    libvips \
+    libvips-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN npm install
+COPY --from=build-stage /app/video_processing/dist ./dist
+
+EXPOSE 3000
+CMD ["node", "dist/server.js"]

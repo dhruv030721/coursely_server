@@ -4,13 +4,13 @@ FROM node:18 as build-stage
 WORKDIR /app
 
 # Copy backend and shared module
-COPY backend ./backend
-COPY yayinstocks_shared_module ./backend/yayinstocks_shared_module/dist
+COPY video_processing ./video_processing
+COPY yayinstocks_shared_module ./video_processing/yayinstocks_shared_module/dist
 
 # Patch the package.json to fix the path for Docker
-RUN sed -i 's|file:../yayinstocks_shared_module|./yayinstocks_shared_module|' ./backend/package.json
+RUN sed -i 's|file:../yayinstocks_shared_module|./yayinstocks_shared_module|' ./video_processing/package.json
 
-WORKDIR /app/backend
+WORKDIR /app/video_processing
 
 RUN npm install
 RUN npm run build
@@ -21,13 +21,13 @@ FROM node:18-slim as prod-stage
 
 WORKDIR /app
 
-COPY backend ./backend
-COPY yayinstocks_shared_module ./backend/yayinstocks_shared_module/dist
+COPY video_processing ./video_processing
+COPY yayinstocks_shared_module ./video_processing/yayinstocks_shared_module/dist
 
 # Patch path again in prod image
-RUN sed -i 's|file:../yayinstocks_shared_module|./yayinstocks_shared_module|' ./backend/package.json
+RUN sed -i 's|file:../yayinstocks_shared_module|./yayinstocks_shared_module|' ./video_processing/package.json
 
-WORKDIR /app/backend
+WORKDIR /app/video_processing
 
 # Install build tools required by sharp
 RUN apt-get update && apt-get install -y \
@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
 
 RUN npm install
-COPY --from=build-stage /app/backend/dist ./dist
+COPY --from=build-stage /app/video_processing/dist ./dist
 
 EXPOSE 3000
 CMD ["node", "dist/server.js"]
