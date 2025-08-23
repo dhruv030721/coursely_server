@@ -13,7 +13,8 @@ dotenv.config();
 
 const app: Application = express();
 app.use(morganMiddleware);
-app.use(express.json());
+app.use(express.json({ limit: '1G' }));
+app.use(express.urlencoded({ limit: '1G', extended: true }));
 
 if (process.env.ENV_MODE === "QA") {
   app.use(

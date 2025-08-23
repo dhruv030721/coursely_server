@@ -15,8 +15,10 @@ const PORT = process.env.PORT || 3000;
 const app: Application = express();
 
 // Middlewares
-app.use(express.json());
+app.use(express.json({ limit: '1G' }));
+app.use(express.urlencoded({ limit: '1G', extended: true }));
 app.use(cookieParser());
+
 if (process.env.ENV_MODE === "QA") {
   app.use(
     cors({
@@ -30,7 +32,7 @@ if (process.env.ENV_MODE === "QA") {
       target: process.env.VIDEO_URL_QA,
       changeOrigin: true,
       pathRewrite: { "^/api/video-service": "" },
-      secure: true,
+      secure: false,
     })
   );
 } else if (process.env.ENV_MODE === "PROD") {
@@ -41,7 +43,7 @@ if (process.env.ENV_MODE === "QA") {
       target: process.env.VIDEO_URL_PROD,
       changeOrigin: true,
       pathRewrite: { "^/api/video-service": "" },
-      secure: true,
+      secure: false,
     })
   );
 } else {
@@ -52,7 +54,7 @@ if (process.env.ENV_MODE === "QA") {
       target: process.env.VIDEO_URL_DEV,
       changeOrigin: true,
       pathRewrite: { "^/api/video-service": "" },
-      secure: true,
+      secure: false,
     })
   );
 }
