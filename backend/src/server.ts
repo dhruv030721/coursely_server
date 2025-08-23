@@ -24,37 +24,37 @@ if (process.env.ENV_MODE === "QA") {
       credentials: true,
     })
   );
-  app.use(
-    "/api/video-service",
-    createProxyMiddleware({
-      target: process.env.VIDEO_URL_QA,
-      changeOrigin: true,
-      pathRewrite: { "^/api/video-service": "" },
-      secure: true,
-    })
-  );
+  // app.use(
+  //   "/api/video-service",
+  //   createProxyMiddleware({
+  //     target: process.env.VIDEO_URL_QA,
+  //     changeOrigin: true,
+  //     pathRewrite: { "^/api/video-service": "" },
+  //     secure: true,
+  //   })
+  // );
 } else if (process.env.ENV_MODE === "PROD") {
   app.use(cors({ origin: ["https://yayinstocks.in"], credentials: true }));
-  app.use(
-    "/api/video-service",
-    createProxyMiddleware({
-      target: process.env.VIDEO_URL_PROD,
-      changeOrigin: true,
-      pathRewrite: { "^/api/video-service": "" },
-      secure: true,
-    })
-  );
+  // app.use(
+  //   "/api/video-service",
+  //   createProxyMiddleware({
+  //     target: process.env.VIDEO_URL_PROD,
+  //     changeOrigin: true,
+  //     pathRewrite: { "^/api/video-service": "" },
+  //     secure: true,
+  //   })
+  // );
 } else {
   app.use(cors({ origin: true, credentials: true }));
-  app.use(
-    "/api/video-service",
-    createProxyMiddleware({
-      target: process.env.VIDEO_URL_DEV,
-      changeOrigin: true,
-      pathRewrite: { "^/api/video-service": "" },
-      secure: true,
-    })
-  );
+  // app.use(
+  //   "/api/video-service",
+  //   createProxyMiddleware({
+  //     target: process.env.VIDEO_URL_DEV,
+  //     changeOrigin: true,
+  //     pathRewrite: { "^/api/video-service": "" },
+  //     secure: true,
+  //   })
+  // );
 }
 
 app.use(morganMiddleware);
