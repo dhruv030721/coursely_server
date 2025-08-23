@@ -15,6 +15,8 @@ const app: Application = express();
 app.use(morganMiddleware);
 app.use(express.json({ limit: '1G' }));
 app.use(express.urlencoded({ limit: '1G', extended: true }));
+app.set("trust proxy", 1); // trust first proxy (nginx)
+
 
 if (process.env.ENV_MODE === "QA") {
   app.use(

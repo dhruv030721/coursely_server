@@ -17,6 +17,7 @@ const app: Application = express();
 // Middlewares
 app.use(express.json({ limit: '1G' }));
 app.use(express.urlencoded({ limit: '1G', extended: true }));
+app.set("trust proxy", 1); // trust first proxy (nginx)
 app.use(cookieParser());
 
 if (process.env.ENV_MODE === "QA") {
@@ -33,6 +34,8 @@ if (process.env.ENV_MODE === "QA") {
       changeOrigin: true,
       pathRewrite: { "^/api/video-service": "" },
       secure: false,
+      proxyTimeout: 300000,
+      timeout: 300000,
     })
   );
 } else if (process.env.ENV_MODE === "PROD") {
@@ -44,6 +47,8 @@ if (process.env.ENV_MODE === "QA") {
       changeOrigin: true,
       pathRewrite: { "^/api/video-service": "" },
       secure: false,
+      proxyTimeout: 300000,
+      timeout: 300000,
     })
   );
 } else {
@@ -55,6 +60,8 @@ if (process.env.ENV_MODE === "QA") {
       changeOrigin: true,
       pathRewrite: { "^/api/video-service": "" },
       secure: false,
+      proxyTimeout: 300000,
+      timeout: 300000,
     })
   );
 }
