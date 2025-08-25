@@ -1,5 +1,5 @@
 import { CookieOptions, Request, Response } from "express";
-import { logger } from "yayinstocks_shared_module";
+import { logger, Cart } from "yayinstocks_shared_module";
 import { User } from "yayinstocks_shared_module";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -61,6 +61,8 @@ const loginController = async (req: Request, res: Response): Promise<void> => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       sameSite: "strict",
     };
+
+    // const cart = await Cart.findById(user._id);
 
     logger.info(`User ${user.email} logged in successfully`);
     res

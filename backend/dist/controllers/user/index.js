@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const homepage_Controller_1 = __importDefault(require("./homepage.Controller"));
 const forgotPassword_controller_1 = require("./forgotPassword.controller");
 const signup_controller_1 = __importDefault(require("./signup.controller"));
 const getUser_controller_1 = __importDefault(require("./getUser.controller"));
@@ -11,6 +12,7 @@ const discount_1 = require("../admin/discount");
 const cart_1 = require("../admin/cart");
 const middlewares_1 = require("../../middlewares");
 const userRouter = express_1.default.Router();
+userRouter.get('/homepage', homepage_Controller_1.default);
 userRouter.post('/signup', signup_controller_1.default);
 userRouter.post('/forgot_password', forgotPassword_controller_1.forgotPasswordController);
 userRouter.post('/change_password', forgotPassword_controller_1.changePasswordController);

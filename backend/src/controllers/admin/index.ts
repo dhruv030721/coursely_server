@@ -1,9 +1,10 @@
 import express from "express";
 import { adminMiddleware, authMiddleware, convertToWebp, upload } from "../../middlewares";
 import { createDiscount, getDiscount, getDiscounts, removeDiscount, updateDiscount } from "./discount";
-import { createCourse, getCourse, createSection, publishCourse, getSingleCourse, updateCourse, deleteCourse } from "./course";
+import { createCourse, getCourse, createSection, publishCourse, getSingleCourse, updateCourse, deleteCourse, removeLectureController, updateSectionTitleController } from "./course";
 import getUserQueries from "./getUserQueries.controller";
 import getUsersController from "./getUsers.controller";
+import updateUserQueryStatus from "./updateUserQueryStatus.controller";
 
 const adminRouter = express.Router();
 
@@ -15,8 +16,11 @@ adminRouter.post("/publish-course", authMiddleware, adminMiddleware, publishCour
 adminRouter.get("/course/:courseId", authMiddleware, adminMiddleware, getSingleCourse);
 adminRouter.put("/course/:courseId", authMiddleware, adminMiddleware, upload.single("thumbnail"), convertToWebp, updateCourse);
 adminRouter.delete("/course", authMiddleware, adminMiddleware, deleteCourse);
+adminRouter.delete("/course/section/lecture", authMiddleware, adminMiddleware, removeLectureController);
+adminRouter.put("/course/section/title", authMiddleware, adminMiddleware, updateSectionTitleController);
 
 adminRouter.get("/user_queries", authMiddleware, adminMiddleware, getUserQueries);
+adminRouter.put("/query/status", authMiddleware, adminMiddleware, updateUserQueryStatus);
 
 // ---------------------------------- Discount Routes ------------------------------
 adminRouter.post("/discount", authMiddleware, adminMiddleware, createDiscount);

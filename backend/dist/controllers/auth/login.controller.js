@@ -63,6 +63,7 @@ const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function
             maxAge: 7 * 24 * 60 * 60 * 1000,
             sameSite: "strict",
         };
+        // const cart = await Cart.findById(user._id);
         yayinstocks_shared_module_1.logger.info(`User ${user.email} logged in successfully`);
         res
             .cookie("refresh_token", refreshToken, refreshTokenCookieOptions)

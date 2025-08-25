@@ -9,6 +9,7 @@ const discount_1 = require("./discount");
 const course_1 = require("./course");
 const getUserQueries_controller_1 = __importDefault(require("./getUserQueries.controller"));
 const getUsers_controller_1 = __importDefault(require("./getUsers.controller"));
+const updateUserQueryStatus_controller_1 = __importDefault(require("./updateUserQueryStatus.controller"));
 const adminRouter = express_1.default.Router();
 // ---------------------------------- Course Routes --------------------------------
 adminRouter.post("/course", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, middlewares_1.upload.single("thumbnail"), middlewares_1.convertToWebp, course_1.createCourse);
@@ -18,7 +19,10 @@ adminRouter.post("/publish-course", middlewares_1.authMiddleware, middlewares_1.
 adminRouter.get("/course/:courseId", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, course_1.getSingleCourse);
 adminRouter.put("/course/:courseId", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, middlewares_1.upload.single("thumbnail"), middlewares_1.convertToWebp, course_1.updateCourse);
 adminRouter.delete("/course", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, course_1.deleteCourse);
+adminRouter.delete("/course/section/lecture", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, course_1.removeLectureController);
+adminRouter.put("/course/section/title", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, course_1.updateSectionTitleController);
 adminRouter.get("/user_queries", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, getUserQueries_controller_1.default);
+adminRouter.put("/query/status", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, updateUserQueryStatus_controller_1.default);
 // ---------------------------------- Discount Routes ------------------------------
 adminRouter.post("/discount", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, discount_1.createDiscount);
 adminRouter.delete("/discount", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, discount_1.removeDiscount);

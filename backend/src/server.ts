@@ -15,9 +15,9 @@ const PORT = process.env.PORT || 3000;
 const app: Application = express();
 
 // Middlewares
-app.use(express.json({ limit: '1G' }));
-app.use(express.urlencoded({ limit: '1G', extended: true }));
-app.set("trust proxy", 1); // trust first proxy (nginx)
+app.use(express.json({ limit: '500MB' }));
+app.use(express.urlencoded({ limit: '500MB', extended: true }));
+app.set("trust proxy", 1);
 app.use(cookieParser());
 
 if (process.env.ENV_MODE === "QA") {

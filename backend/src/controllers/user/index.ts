@@ -1,4 +1,5 @@
 import express from 'express';
+import homePageController from './homepage.Controller';
 import { forgotPasswordController, changePasswordController } from './forgotPassword.controller';
 import signupController from './signup.controller';
 import getUserController from './getUser.controller';
@@ -8,6 +9,7 @@ import { authMiddleware } from "../../middlewares"
 
 const userRouter = express.Router();
 
+userRouter.get('/homepage', homePageController);
 userRouter.post('/signup', signupController);
 userRouter.post('/forgot_password', forgotPasswordController);
 userRouter.post('/change_password', changePasswordController);

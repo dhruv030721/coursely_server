@@ -21,11 +21,18 @@ const updateCourse = async (req: Request, res: Response) => {
             return;
         }
 
+        const courseObject = await Course.findById(courseId);
+
+        if (!courseObject) {
+            res.status(404).json({ success: false, message: "Course not found." });
+            return;
+        }
+
         const courseData: CourseData = {
             title,
             description,
             price,
-            status: "draft",
+            status: courseObject.status,
             featured: false
         }
 
@@ -61,7 +68,7 @@ const updateCourse = async (req: Request, res: Response) => {
             data: {
                 courseId: courseId,
             },
-        }); 
+        });
         return;
     } catch (error) {
         logger.error("Error updating course:", error);

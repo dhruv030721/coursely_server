@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { roleENum } from "./enums";
 
 interface UserDocument extends mongoose.Document {
+    _id: mongoose.Types.ObjectId;
     name: string;
     email: string;
     password: string;

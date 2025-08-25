@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { discountCoupenStatusEnum } from "./enums";
 
 interface DiscountDocument extends mongoose.Document {
+  _id: mongoose.Types.ObjectId;
   code: string;
   offerText: string;
   discount: number;

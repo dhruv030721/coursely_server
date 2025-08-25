@@ -19,11 +19,16 @@ const updateCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             res.status(400).json({ success: false, message: "All fields are required." });
             return;
         }
+        const courseObject = yield yayinstocks_shared_module_1.Course.findById(courseId);
+        if (!courseObject) {
+            res.status(404).json({ success: false, message: "Course not found." });
+            return;
+        }
         const courseData = {
             title,
             description,
             price,
-            status: "draft",
+            status: courseObject.status,
             featured: false
         };
         if (thumbnail) {

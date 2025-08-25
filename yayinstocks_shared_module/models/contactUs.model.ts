@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 
 interface ContactUsDocument extends mongoose.Document {
+    _id: mongoose.Types.ObjectId;
     name: string;
     email: string;
     contact: string;
