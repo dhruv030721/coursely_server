@@ -25,8 +25,9 @@
     "morgan": "^1.10.0",
     "multer": "^2.0.1",
     "nodemon": "^3.1.7",
-    "ts-node": "^10.9.2",
+    "razorpay": "^2.9.6",
     "sharp": "^0.34.3",
+    "ts-node": "^10.9.2",
     "yayinstocks_shared_module": "file:../yayinstocks_shared_module/dist"
   },
   "devDependencies": {

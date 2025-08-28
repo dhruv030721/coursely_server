@@ -1,10 +1,12 @@
-import { userSchema, UserDocument } from "./models/user.model";
-import { otpSchema, OtpDocument } from "./models/otp.model";
-import { contactUsSchema, ContactUsDocument } from "./models/contactUs.model";
-import { subscribeSchema, SubscribeDocument } from "./models/subscribe.model";
+import { UserDocument, userSchema } from "./models/user.model";
+import { OtpDocument, otpSchema } from "./models/otp.model";
+import { ContactUsDocument, contactUsSchema } from "./models/contactUs.model";
+import { SubscribeDocument, subscribeSchema } from "./models/subscribe.model";
 import { DiscountDocument, discountSchema } from "./models/discount.model";
 import { CourseDocument, courseSchema } from "./models/course.model";
 import { CartDocument, cartSchema } from "./models/cart.model"
+import { PaymentHistoryDocument, paymentHistorySchema } from "./models/paymentHistory.model"
+import { PurchasedCourseDocument, purchasedCourseSchema } from "./models/purchasedCourse.model"
 import courseReview from "./models/courseReview.model";
 import coursePurchase from "./models/coursePurchase.model";
 import { connectDB } from "./config/mongodb";
@@ -17,6 +19,8 @@ let ContactUs: mongoose.Model<ContactUsDocument>;
 let Discount: mongoose.Model<DiscountDocument>;
 let Course: mongoose.Model<CourseDocument>;
 let Cart: mongoose.Model<CartDocument>;
+let PaymentHistory: mongoose.Model<PaymentHistoryDocument>;
+let PurchasedCourse: mongoose.Model<PurchasedCourseDocument>;
 
 const initalizeDBPackage = async () => {
   await connectDB();
@@ -28,6 +32,8 @@ const initalizeDBPackage = async () => {
   Discount = mongoose.model("Discount", discountSchema);
   Course = mongoose.model("Course", courseSchema);
   Cart = mongoose.model("Cart", cartSchema);
+  PaymentHistory = mongoose.model("PaymentHistory", paymentHistorySchema);
+  PurchasedCourse = mongoose.model("PurchasedCourse", purchasedCourseSchema);
 };
 
 export {
@@ -38,9 +44,12 @@ export {
   Discount,
   Course,
   Cart,
+  PaymentHistory,
+  PurchasedCourse,
   courseReview,
   coursePurchase,
   initalizeDBPackage,
+  mongoose
 };
 
 export * from "./utility";

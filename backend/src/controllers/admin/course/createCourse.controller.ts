@@ -22,12 +22,13 @@ const createCourse = async (req: Request, res: Response) => {
     }
 
     const baseUrl =
-      process.env.ENV_MODE == "QA"
+      process.env.ENV_MODE === "QA"
         ? process.env.BD_URL_QA
-        : process.env.ENV_MODE == "PROD"
+        : process.env.ENV_MODE === "PROD"
         ? process.env.BD_URL_PROD
         : process.env.BD_URL_DEV;
-
+  
+        console.log("Base URL:", baseUrl);
     if (!baseUrl) {
       throw new Error("Base URL for environment is not defined.");
     }

@@ -62,7 +62,7 @@ const loginController = async (req: Request, res: Response): Promise<void> => {
       sameSite: "strict",
     };
 
-    // const cart = await Cart.findById(user._id);
+    const cart = await Cart.findOne({ email: user.email });
 
     logger.info(`User ${user.email} logged in successfully`);
     res
@@ -73,6 +73,9 @@ const loginController = async (req: Request, res: Response): Promise<void> => {
         message: "Login successful",
         data: {
           email: user.email,
+          name: user.name,
+          contact: user.contact,
+          cartItemCount: cart?.items.length || 0
         },
         auth_token: authToken,
       });

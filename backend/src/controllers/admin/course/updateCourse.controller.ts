@@ -53,6 +53,8 @@ const updateCourse = async (req: Request, res: Response) => {
                 baseUrl
             ).toString();
             courseData.thumbnail = thumbnailUrl
+
+            console.log(thumbnailUrl)
         }
 
         const course = await Course.updateOne({ _id: courseId }, courseData);

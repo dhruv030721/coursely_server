@@ -87,6 +87,7 @@ async function createMasterPlaylist(
 const processVideoToHLS = async (
   inputPath: string,
   outputDir: string,
+  videoDir: string,
   courseId: string,
   sectionId: string,
   lectureTitle: string,
@@ -229,6 +230,11 @@ const processVideoToHLS = async (
       masterPlaylist
     );
 
+    const mastPlaylistPathforVideo = await createMasterPlaylist(
+      path.join(videoDir, "master.m3u8"),
+      masterPlaylist
+    )
+
     const totalDuration = (Date.now() - startTime) / 1000;
     logger.info("Video processing completed successfully", {
       videoId,
@@ -239,17 +245,17 @@ const processVideoToHLS = async (
 
     const baseUrl =
       process.env.ENV_MODE == "QA"
-        ? process.env.BD_URL_QA
+        ? process.env.VIDEO_BD_URL_QA
         : process.env.ENV_MODE == "PROD"
-          ? process.env.BD_URL_PROD
-          : process.env.BD_URL_DEV;
+          ? process.env.VIDEO_BD_URL_PROD
+          : process.env.VIDEO_BD_URL_DEV;
 
     if (!baseUrl) {
       throw new Error("Base URL for environment is not defined.");
     }
 
     const video_path = new URL(
-      `${masterPlaylistPath}`,
+      `${mastPlaylistPathforVideo}`,
       baseUrl
     ).toString();
 
@@ -320,6 +326,7 @@ const processVideo = async (
     const videoId = uuidv4();
     const inputFilePath = req.file.path;
     const outputDir = path.join("outputs", videoId);
+    const videoDir = path.join("videos", videoId)
 
     await fs.mkdir(outputDir, { recursive: true });
 
@@ -328,6 +335,7 @@ const processVideo = async (
     processVideoToHLS(
       inputFilePath,
       outputDir,
+      videoDir,
       courseId,
       sectionId,
       lectureTitle,

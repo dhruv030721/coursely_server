@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { logger, User, Course, Cart } from "yayinstocks_shared_module";
+import { logger, User, Course, Cart, PurchasedCourse } from "yayinstocks_shared_module";
 import { Types } from "mongoose";
 
 const addToCart = async (req: Request, res: Response) => {
@@ -20,6 +20,24 @@ const addToCart = async (req: Request, res: Response) => {
 
         const courseObjectId = course._id as Types.ObjectId;
 
+        // ✅ Check if already exists
+        const cart = await Cart.findOne({ email, items: courseObjectId });
+        if (cart) {
+            return res.status(400).json({
+                success: false,
+                message: "Course already exists in cart.",
+            });
+        }
+
+        const isPurchasedCourse = await PurchasedCourse.findOne({ email, items: courseObjectId });
+        if (isPurchasedCourse) {
+            return res.status(400).json({
+                success: false,
+                message: "Course already purchased.",
+            });
+        }
+
+        // ✅ Add if not exists
         await Cart.findOneAndUpdate(
             { email },
             { $addToSet: { items: courseObjectId } },

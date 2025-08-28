@@ -5,8 +5,11 @@ import { createCourse, getCourse, createSection, publishCourse, getSingleCourse,
 import getUserQueries from "./getUserQueries.controller";
 import getUsersController from "./getUsers.controller";
 import updateUserQueryStatus from "./updateUserQueryStatus.controller";
+import dashboardController from "./dashboard/dashboard.controller";
 
 const adminRouter = express.Router();
+
+adminRouter.get("/dashboard", authMiddleware, adminMiddleware, dashboardController);
 
 // ---------------------------------- Course Routes --------------------------------
 adminRouter.post("/course", authMiddleware, adminMiddleware, upload.single("thumbnail"), convertToWebp, createCourse);
