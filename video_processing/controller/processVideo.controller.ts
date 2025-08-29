@@ -230,11 +230,6 @@ const processVideoToHLS = async (
       masterPlaylist
     );
 
-    const mastPlaylistPathforVideo = await createMasterPlaylist(
-      path.join(videoDir, "master.m3u8"),
-      masterPlaylist
-    )
-
     const totalDuration = (Date.now() - startTime) / 1000;
     logger.info("Video processing completed successfully", {
       videoId,
@@ -255,7 +250,8 @@ const processVideoToHLS = async (
     }
 
     const video_path = new URL(
-      `${mastPlaylistPathforVideo}`,
+      `${masterPlaylistPath.replace("outputs", "videos")
+      }`,
       baseUrl
     ).toString();
 
@@ -330,8 +326,6 @@ const processVideo = async (
 
     await fs.mkdir(outputDir, { recursive: true });
 
-    console.log("Process started");
-
     processVideoToHLS(
       inputFilePath,
       outputDir,
@@ -344,8 +338,6 @@ const processVideo = async (
       lectureDescription,
       inputFilePath
     );
-
-    console.log("Process end");
 
     res.json({
       success: true,
