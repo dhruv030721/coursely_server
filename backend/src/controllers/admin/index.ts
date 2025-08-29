@@ -2,6 +2,7 @@ import express from "express";
 import { adminMiddleware, authMiddleware, convertToWebp, upload } from "../../middlewares";
 import { createDiscount, getDiscount, getDiscounts, removeDiscount, updateDiscount } from "./discount";
 import { createCourse, getCourse, createSection, publishCourse, getSingleCourse, updateCourse, deleteCourse, removeLectureController, updateSectionTitleController } from "./course";
+import { getPaymentHistory } from "./payment";
 import getUserQueries from "./getUserQueries.controller";
 import getUsersController from "./getUsers.controller";
 import updateUserQueryStatus from "./updateUserQueryStatus.controller";
@@ -24,6 +25,9 @@ adminRouter.put("/course/section/title", authMiddleware, adminMiddleware, update
 
 adminRouter.get("/user_queries", authMiddleware, adminMiddleware, getUserQueries);
 adminRouter.put("/query/status", authMiddleware, adminMiddleware, updateUserQueryStatus);
+
+// ---------------------------------- Payment Routes ------------------------------
+adminRouter.get("/payment/history", authMiddleware, adminMiddleware, getPaymentHistory);
 
 // ---------------------------------- Discount Routes ------------------------------
 adminRouter.post("/discount", authMiddleware, adminMiddleware, createDiscount);

@@ -27,12 +27,14 @@ const getUserQueries = async (req: Request, res: Response) => {
                 totalPages: Math.ceil(total / limit),
             },
         });
+        return;
     } catch (error) {
         logger.error("Error fetching user queries:", error);
         res.status(500).json({
             success: false,
             message: "Internal server error.",
         });
+        return;
     }
 };
 
