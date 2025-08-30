@@ -21,12 +21,12 @@ app.set("trust proxy", 1); // trust first proxy (nginx)
 if (process.env.ENV_MODE === "QA") {
   app.use(
     cors({
-      origin: ["https://qa-admin.yayinstocks.in"],
+      origin: ["https://qa-admin.yayinstocks.in", "https://www.qa.yayinstocks.in"],
       credentials: true,
     })
   );
 } else if (process.env.ENV_MODE === "PROD") {
-  app.use(cors({ origin: ["https://admin.yayinstocks.in"], credentials: true }));
+  app.use(cors({ origin: ["https://admin.yayinstocks.in", "https://www.yayinstocks.in"], credentials: true }));
 } else {
   app.use(cors({ origin: true, credentials: true }));
 }
