@@ -12,10 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const yayinstocks_shared_module_1 = require("yayinstocks_shared_module");
 const verifyTokenController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const cart = yield yayinstocks_shared_module_1.Cart.findOne({ email: req.body.email });
         res.status(200).json({
             success: true,
             message: "Token verified successfully!",
-            data: { email: req.body.email },
+            data: {
+                email: req.body.email,
+                cartItemCount: (cart === null || cart === void 0 ? void 0 : cart.items.length) || 0
+            },
         });
         return;
     }

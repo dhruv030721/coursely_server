@@ -63,7 +63,7 @@ const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function
             maxAge: 7 * 24 * 60 * 60 * 1000,
             sameSite: "strict",
         };
-        // const cart = await Cart.findById(user._id);
+        const cart = yield yayinstocks_shared_module_1.Cart.findOne({ email: user.email });
         yayinstocks_shared_module_1.logger.info(`User ${user.email} logged in successfully`);
         res
             .cookie("refresh_token", refreshToken, refreshTokenCookieOptions)
@@ -73,6 +73,9 @@ const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function
             message: "Login successful",
             data: {
                 email: user.email,
+                name: user.name,
+                contact: user.contact,
+                cartItemCount: (cart === null || cart === void 0 ? void 0 : cart.items.length) || 0
             },
             auth_token: authToken,
         });

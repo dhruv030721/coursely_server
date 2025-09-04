@@ -6,8 +6,6 @@ const removeLectureController = async (req: Request, res: Response) => {
     try {
         const { courseId, sectionId, lectureId } = req.body;
 
-        console.log(courseId, sectionId, lectureId);
-
         const course = await Course.findById(courseId);
         if (!course) {
             res.status(404).json({ success: false, message: "Course not found" });

@@ -42,6 +42,7 @@ const updateCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             }
             const thumbnailUrl = new URL(`/images/${thumbnail.filename}`, baseUrl).toString();
             courseData.thumbnail = thumbnailUrl;
+            console.log(thumbnailUrl);
         }
         const course = yield yayinstocks_shared_module_1.Course.updateOne({ _id: courseId }, courseData);
         if (course.modifiedCount === 0) {

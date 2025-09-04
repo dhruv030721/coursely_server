@@ -1,0 +1,46 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
+const yayinstocks_shared_module_1 = require("yayinstocks_shared_module");
+const paymentController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, items, razorpayPaymentId, razorpayOrderId, receiptId, amount, discount, status } = req.body;
+        if (!email || !items || !razorpayPaymentId || !razorpayOrderId || !receiptId || !amount || !status) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+        yield yayinstocks_shared_module_1.PaymentHistory.create({
+            email,
+            items: items.map((item) => new mongoose_1.default.Types.ObjectId(item)),
+            razorpayPaymentId,
+            razorpayOrderId,
+            receiptId,
+            amount,
+            status,
+            discount
+        });
+        yield yayinstocks_shared_module_1.PurchasedCourse.findOneAndUpdate({ email }, { $addToSet: { items: items.map((item) => new mongoose_1.default.Types.ObjectId(item)) } }, { upsert: true, new: true });
+        yield yayinstocks_shared_module_1.Cart.findOneAndDelete({ email });
+        res.status(201).json({
+            success: true,
+            message: "Course purchased successfully!"
+        });
+    }
+    catch (error) {
+        yayinstocks_shared_module_1.logger.error("Error occurred in [paymentController]: ", error);
+        res.status(500).json({ message: "Internal Server Error" });
+        return;
+    }
+});
+exports.default = paymentController;

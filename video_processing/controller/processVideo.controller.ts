@@ -22,7 +22,6 @@ interface MasterPlaylistEntry {
 
 interface LectureObject {
   title: string;
-  sequence: number;
   video_playback_time: string;
   description: string;
   video_url: string;
@@ -85,6 +84,8 @@ async function createMasterPlaylist(
 }
 
 const processVideoToHLS = async (
+  _id: string,
+  type: String,
   inputPath: string,
   outputDir: string,
   videoDir: string,
@@ -257,16 +258,24 @@ const processVideoToHLS = async (
 
     const lectureObject: LectureObject = {
       title: lectureTitle,
-      sequence: lectureSequence,
       video_playback_time: lecturePlaybackTime,
       description: lectureDescription,
       video_url: video_path,
     };
 
-    await Course.updateOne(
-      { _id: courseId, "sections._id": sectionId },
-      { $push: { "sections.$.lectures": lectureObject } }
-    );
+    if (type == "edit") {
+      await Course.updateOne(
+        { _id: courseId, "sections._id": sectionId },
+        { $set: { "sections.$.lectures.$[elem]": lectureObject } },
+        { arrayFilters: [{ "elem._id": _id }] }
+      );
+    } else {
+      await Course.updateOne(
+        { _id: courseId, "sections._id": sectionId },
+        { $push: { "sections.$.lectures": lectureObject } }
+      );
+    }
+
 
     fs.unlink(inputFilePath);
 
@@ -299,6 +308,8 @@ const processVideo = async (
       return;
     }
     const {
+      _id,
+      type,
       courseId,
       sectionId,
       lectureTitle,
@@ -327,6 +338,8 @@ const processVideo = async (
     await fs.mkdir(outputDir, { recursive: true });
 
     processVideoToHLS(
+      _id,
+      type,
       inputFilePath,
       outputDir,
       videoDir,

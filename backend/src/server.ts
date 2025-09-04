@@ -6,7 +6,7 @@ import { logger, morganMiddleware } from "yayinstocks_shared_module";
 import { initalizeDBPackage } from "yayinstocks_shared_module";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { createProxyMiddleware } from "http-proxy-middleware";
+
 
 // Load environment variables
 dotenv.config();
@@ -30,7 +30,7 @@ if (process.env.ENV_MODE === "QA") {
 } else if (process.env.ENV_MODE === "PROD") {
   app.use(cors({ origin: ["https://yayinstocks.in"], credentials: true }));
 } else {
-  app.use(cors({ origin: true, credentials: true })); 
+  app.use(cors({ origin: true, credentials: true }));
 }
 
 app.use(morganMiddleware);

@@ -6,5 +6,6 @@ import updateCourse from "./updateCourse.controller";
 import deleteCourse from "./deleteCourse.controller";
 import removeLectureController from "./section/removeLecture.controller";
 import updateSectionTitleController from "./section/updateSectionTitle.controller";
+import removeSectionController from "./section/removeSection.controller";
 
-export { createCourse, getCourse, createSection, publishCourse, updateCourse, getSingleCourse, deleteCourse, removeLectureController, updateSectionTitleController };
+export { createCourse, getCourse, createSection, publishCourse, updateCourse, getSingleCourse, deleteCourse, removeLectureController, updateSectionTitleController, removeSectionController };

@@ -12,13 +12,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const yayinstocks_shared_module_1 = require("yayinstocks_shared_module");
 const dashboardController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        //TODO: today new users
-        //TODO: total users
-        //TODO: last month users
         //TODO: today earning
         //TODO: total earning
         //TODO: last month earning
         //TODO: top 3 high users courses
+        const todayNewUsers = yield yayinstocks_shared_module_1.User.countDocuments({
+            createdAt: {
+                $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+                $lt: new Date(new Date().setHours(23, 59, 59, 999)),
+            },
+        });
+        const totalUsers = yield yayinstocks_shared_module_1.User.countDocuments();
+        const lastMonthUsers = yield yayinstocks_shared_module_1.User.countDocuments({
+            createdAt: {
+                $gte: new Date(new Date().setDate(1)),
+                $lt: new Date(new Date().setDate(1)).setMonth(new Date().getMonth() + 1),
+            },
+        });
+        res.status(200).json({
+            success: true,
+            message: "Dashboard data fetched successfully.",
+            data: {
+                userMetrics: {
+                    todayNewUsers,
+                    totalUsers,
+                    lastMonthUsers
+                }
+            },
+        });
     }
     catch (error) {
         yayinstocks_shared_module_1.logger.error("Error in [dashboard]:", error);

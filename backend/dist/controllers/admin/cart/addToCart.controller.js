@@ -25,6 +25,22 @@ const addToCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!course)
             return res.status(404).json({ success: false, message: "Course not found." });
         const courseObjectId = course._id;
+        // ✅ Check if already exists
+        const cart = yield yayinstocks_shared_module_1.Cart.findOne({ email, items: courseObjectId });
+        if (cart) {
+            return res.status(400).json({
+                success: false,
+                message: "Course already exists in cart.",
+            });
+        }
+        const isPurchasedCourse = yield yayinstocks_shared_module_1.PurchasedCourse.findOne({ email, items: courseObjectId });
+        if (isPurchasedCourse) {
+            return res.status(400).json({
+                success: false,
+                message: "Course already purchased.",
+            });
+        }
+        // ✅ Add if not exists
         yield yayinstocks_shared_module_1.Cart.findOneAndUpdate({ email }, { $addToSet: { items: courseObjectId } }, { new: true, upsert: true });
         return res.status(200).json({
             success: true,

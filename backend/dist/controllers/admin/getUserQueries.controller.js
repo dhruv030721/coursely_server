@@ -33,6 +33,7 @@ const getUserQueries = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 totalPages: Math.ceil(total / limit),
             },
         });
+        return;
     }
     catch (error) {
         yayinstocks_shared_module_1.logger.error("Error fetching user queries:", error);
@@ -40,6 +41,7 @@ const getUserQueries = (req, res) => __awaiter(void 0, void 0, void 0, function*
             success: false,
             message: "Internal server error.",
         });
+        return;
     }
 });
 exports.default = getUserQueries;

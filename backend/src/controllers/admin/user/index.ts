@@ -1,3 +1,4 @@
-import getUser from "./getUser.controller";
+import getUserByEmail from "./getUserByEmail.controller";
+import getUsersController from "./getUsers.controller";
 
-export { getUser };
+export { getUserByEmail, getUsersController };
