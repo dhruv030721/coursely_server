@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateSectionTitleController = exports.removeLectureController = exports.deleteCourse = exports.getSingleCourse = exports.updateCourse = exports.publishCourse = exports.createSection = exports.getCourse = exports.createCourse = void 0;
+exports.getCourseUsersController = exports.removeSectionController = exports.updateSectionTitleController = exports.removeLectureController = exports.deleteCourse = exports.getSingleCourse = exports.updateCourse = exports.publishCourse = exports.createSection = exports.getCourse = exports.createCourse = void 0;
 const createCourse_controller_1 = __importDefault(require("./createCourse.controller"));
 exports.createCourse = createCourse_controller_1.default;
 const getCourse_controller_1 = require("./getCourse.controller");
@@ -21,3 +21,7 @@ const removeLecture_controller_1 = __importDefault(require("./section/removeLect
 exports.removeLectureController = removeLecture_controller_1.default;
 const updateSectionTitle_controller_1 = __importDefault(require("./section/updateSectionTitle.controller"));
 exports.updateSectionTitleController = updateSectionTitle_controller_1.default;
+const removeSection_controller_1 = __importDefault(require("./section/removeSection.controller"));
+exports.removeSectionController = removeSection_controller_1.default;
+const getCourseUsers_controller_1 = __importDefault(require("./getCourseUsers.controller"));
+exports.getCourseUsersController = getCourseUsers_controller_1.default;

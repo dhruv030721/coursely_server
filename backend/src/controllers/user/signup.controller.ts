@@ -5,6 +5,7 @@ import path from "path";
 import ejs from "ejs";
 import { sendMail } from 'yayinstocks_shared_module';
 import { COMPANY_CONFIG } from 'yayinstocks_shared_module';
+import CryptoJS from 'crypto-js';
 
 const signupController = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -20,7 +21,9 @@ const signupController = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const cryptoPassword = CryptoJS.AES.decrypt(password, process.env.CRYPTO_SECRET as string).toString(CryptoJS.enc.Utf8);
+
+        const hashedPassword = await bcrypt.hash(cryptoPassword, 10);
 
         const newUser = await User.create({
             name,
@@ -35,7 +38,7 @@ const signupController = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        
+
         const templatePath = path.join(__dirname, "../../emails/signup.template.ejs")
         const emailTemplate = await ejs.renderFile(templatePath, {
             companyName: COMPANY_CONFIG.companyName,
@@ -47,10 +50,6 @@ const signupController = async (req: Request, res: Response): Promise<void> => {
             mutualFundUrl: 'https://yayinstocks.in/mutual-funds',
             websiteUrl: COMPANY_CONFIG.websiteUrl,
             linkedinUrl: 'https://linkedin.com/company/yayinstocks',
-            youtubeUrl: 'https://youtube.com/@yayinstocks',
-            telegramUrl: 'https://t.me/yayinstocks',
-            unsubscribeUrl: 'https://yayinstocks.in/unsubscribe',
-            privacyUrl: 'https://yayinstocks.in/privacy-policy'
         });
 
         const mailOptions = {

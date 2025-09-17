@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.customerReviewSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const courseReviewSchema = new mongoose_1.default.Schema({
+const customerReviewSchema = new mongoose_1.default.Schema({
     courseId: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "Course",
@@ -21,19 +22,14 @@ const courseReviewSchema = new mongoose_1.default.Schema({
         min: 1,
         max: 5,
     },
-    comment: {
+    message: {
         type: String,
         required: true,
         trim: true,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
-const CourseReview = mongoose_1.default.model("CourseReview", courseReviewSchema);
-exports.default = CourseReview;
+    isOnScreen: {
+        type: Boolean,
+        default: false,
+    }
+}, { timestamps: true });
+exports.customerReviewSchema = customerReviewSchema;

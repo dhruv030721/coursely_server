@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mongoose = exports.initalizeDBPackage = exports.coursePurchase = exports.courseReview = exports.PurchasedCourse = exports.PaymentHistory = exports.Cart = exports.Course = exports.Discount = exports.Subscribe = exports.ContactUs = exports.OTP = exports.User = void 0;
+exports.mongoose = exports.initalizeDBPackage = exports.CustomerReview = exports.PurchasedCourse = exports.PaymentHistory = exports.Cart = exports.Course = exports.Discount = exports.Subscribe = exports.ContactUs = exports.OTP = exports.User = void 0;
 const user_model_1 = require("./models/user.model");
 const otp_model_1 = require("./models/otp.model");
 const contactUs_model_1 = require("./models/contactUs.model");
@@ -36,10 +36,7 @@ const course_model_1 = require("./models/course.model");
 const cart_model_1 = require("./models/cart.model");
 const paymentHistory_model_1 = require("./models/paymentHistory.model");
 const purchasedCourse_model_1 = require("./models/purchasedCourse.model");
-const courseReview_model_1 = __importDefault(require("./models/courseReview.model"));
-exports.courseReview = courseReview_model_1.default;
-const coursePurchase_model_1 = __importDefault(require("./models/coursePurchase.model"));
-exports.coursePurchase = coursePurchase_model_1.default;
+const courseReview_model_1 = require("./models/courseReview.model");
 const mongodb_1 = require("./config/mongodb");
 const mongoose_1 = __importDefault(require("mongoose"));
 exports.mongoose = mongoose_1.default;
@@ -52,6 +49,7 @@ let Course;
 let Cart;
 let PaymentHistory;
 let PurchasedCourse;
+let CustomerReview;
 const initalizeDBPackage = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, mongodb_1.connectDB)();
     exports.User = User = mongoose_1.default.model("User", user_model_1.userSchema);
@@ -63,6 +61,7 @@ const initalizeDBPackage = () => __awaiter(void 0, void 0, void 0, function* () 
     exports.Cart = Cart = mongoose_1.default.model("Cart", cart_model_1.cartSchema);
     exports.PaymentHistory = PaymentHistory = mongoose_1.default.model("PaymentHistory", paymentHistory_model_1.paymentHistorySchema);
     exports.PurchasedCourse = PurchasedCourse = mongoose_1.default.model("PurchasedCourse", purchasedCourse_model_1.purchasedCourseSchema);
+    exports.CustomerReview = CustomerReview = mongoose_1.default.model("CustomerReview", courseReview_model_1.customerReviewSchema);
 });
 exports.initalizeDBPackage = initalizeDBPackage;
 __exportStar(require("./utility"), exports);

@@ -9,12 +9,21 @@ const verifyTokenController = async (
   try {
 
     const cart = await Cart.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+      res.status(404).json({ success: false, message: "User not found" });
+      return;
+    }
 
     res.status(200).json({
       success: true,
       message: "Token verified successfully!",
       data: {
+        _id: user._id,
         email: req.body.email,
+        name: user.name,
+        contact: user.contact,
         cartItemCount: cart?.items.length || 0
       },
     });

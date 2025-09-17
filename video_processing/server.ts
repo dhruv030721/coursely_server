@@ -8,15 +8,18 @@ import {
 } from "yayinstocks_shared_module";
 import router from "./routes/router";
 import cors from "cors";
+import http from "http"
+import { initSocket } from "./socket";
+import signedUrlCheckMiddleware from "./middleware/signedUrlCheck.middleware";
 
 dotenv.config();
 
 const app: Application = express();
+
 app.use(morganMiddleware);
 app.use(express.json({ limit: '1G' }));
 app.use(express.urlencoded({ limit: '1G', extended: true }));
-app.set("trust proxy", 1); // trust first proxy (nginx)
-
+app.set("trust proxy", 1);
 
 if (process.env.ENV_MODE === "QA") {
   app.use(
@@ -36,7 +39,11 @@ app.use("/videos", express.static("outputs"));
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, async () => {
+const server = http.createServer(app);
+
+initSocket(server);
+
+server.listen(PORT, async () => {
   await ensureDirectories();
   logger.info(`Video Processing Server is starting on port ${PORT}`);
 

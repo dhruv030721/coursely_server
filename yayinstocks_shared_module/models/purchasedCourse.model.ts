@@ -7,7 +7,7 @@ interface PurchasedCourseDocument extends mongoose.Document {
 }
 
 const purchasedCourseSchema = new mongoose.Schema<PurchasedCourseDocument>({
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true, ref: "user" },
     items: [
         {
             type: mongoose.Schema.Types.ObjectId,

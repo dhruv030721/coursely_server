@@ -5,6 +5,7 @@ import ffmpeg from "fluent-ffmpeg";
 import { NextFunction, Request, Response } from "express";
 import { Course, getVideoInfo } from "yayinstocks_shared_module";
 import { logger } from "yayinstocks_shared_module";
+import { getIo } from "../socket";
 
 interface ResolutionPreset {
   name: string;
@@ -23,7 +24,6 @@ interface MasterPlaylistEntry {
 interface LectureObject {
   title: string;
   video_playback_time: string;
-  description: string;
   video_url: string;
 }
 
@@ -92,9 +92,7 @@ const processVideoToHLS = async (
   courseId: string,
   sectionId: string,
   lectureTitle: string,
-  lectureSequence: number,
   lecturePlaybackTime: string,
-  lectureDescription: string,
   inputFilePath: string
 ): Promise<{
   videoId: string;
@@ -104,6 +102,7 @@ const processVideoToHLS = async (
   const videoId = path.basename(outputDir);
   const masterPlaylist: MasterPlaylistEntry[] = [];
   const startTime = Date.now();
+  const io = getIo();
 
   logger.info("Starting video processing", {
     videoId,
@@ -169,6 +168,11 @@ const processVideoToHLS = async (
             .output(playlistPath)
             .on("end", () => {
               const duration = (Date.now() - resolutionStartTime) / 1000;
+              io.emit("video-processing-progress", {
+                videoId,
+                resolution: preset.name,
+                percent: 100
+              });
               logger.info("Resolution processing completed", {
                 videoId,
                 resolution: preset.name,
@@ -189,6 +193,11 @@ const processVideoToHLS = async (
             })
             .on("progress", (progress: any) => {
               if (progress.percent && progress.percent % 10 < 1) {
+                io.emit("video-processing-progress", {
+                  videoId,
+                  resolution: preset.name,
+                  percent: Math.round(progress.percent)
+                });
                 logger.info(
                   `Processing progress ..................... [${Math.round(
                     progress.percent
@@ -259,11 +268,10 @@ const processVideoToHLS = async (
     const lectureObject: LectureObject = {
       title: lectureTitle,
       video_playback_time: lecturePlaybackTime,
-      description: lectureDescription,
       video_url: video_path,
     };
 
-    if (type == "edit") {
+    if (type === "edit") {
       await Course.updateOne(
         { _id: courseId, "sections._id": sectionId },
         { $set: { "sections.$.lectures.$[elem]": lectureObject } },
@@ -275,7 +283,6 @@ const processVideoToHLS = async (
         { $push: { "sections.$.lectures": lectureObject } }
       );
     }
-
 
     fs.unlink(inputFilePath);
 
@@ -313,9 +320,7 @@ const processVideo = async (
       courseId,
       sectionId,
       lectureTitle,
-      lectureSequence,
-      lecturePlaybackTime,
-      lectureDescription,
+      lecturePlaybackTime
     } = req.body;
 
     const course = await Course.findOne(
@@ -346,9 +351,7 @@ const processVideo = async (
       courseId,
       sectionId,
       lectureTitle,
-      lectureSequence,
       lecturePlaybackTime,
-      lectureDescription,
       inputFilePath
     );
 

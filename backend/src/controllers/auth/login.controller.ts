@@ -3,6 +3,7 @@ import { logger, Cart } from "yayinstocks_shared_module";
 import { User } from "yayinstocks_shared_module";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import CryptoJs from "crypto-js"
 
 const generateAuthToken = (payload: { email: string }): string => {
   return jwt.sign(payload, process.env.JWT_SECRET as string, {
@@ -26,13 +27,15 @@ const loginController = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+    const cryptoPassword = CryptoJs.AES.decrypt(password, process.env.CRYPTO_SECRET as string).toString(CryptoJs.enc.Utf8);
+
     const user = await User.findOne({ email });
     if (!user) {
       res.status(404).json({ success: false, message: "User not found" });
       return;
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(cryptoPassword, user.password);
 
     if (!isPasswordValid) {
       res.status(401).json({ success: false, message: "Invalid password" });
@@ -72,6 +75,7 @@ const loginController = async (req: Request, res: Response): Promise<void> => {
         success: true,
         message: "Login successful",
         data: {
+          _id: user._id,
           email: user.email,
           name: user.name,
           contact: user.contact,

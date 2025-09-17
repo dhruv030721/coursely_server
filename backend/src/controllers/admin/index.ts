@@ -1,10 +1,11 @@
 import express from "express";
 import { adminMiddleware, authMiddleware, convertToWebp, upload } from "../../middlewares";
 import { createDiscount, getDiscount, getDiscounts, removeDiscount, updateDiscount } from "./discount";
-import { createCourse, getCourse, createSection, publishCourse, getSingleCourse, updateCourse, deleteCourse, removeLectureController, updateSectionTitleController, removeSectionController } from "./course";
+import { createCourse, getCourse, createSection, publishCourse, getSingleCourse, updateCourse, deleteCourse, removeLectureController, updateSectionTitleController, removeSectionController, getCourseUsersController } from "./course";
 import { getPaymentHistory, getPaymentHistoryByEmail } from "./payment";
 import { getUserQueries, getUserQueryByEmail, updateUserQueryStatus } from "./user-queries";
 import { getUsersController, getUserByEmail } from "./user";
+import { getCustomerReviewController, getCustomerReviewByEmailController, removeCustomerReviewController, updateOnScreenCustomerReview } from "./customer-review"
 import dashboardController from "./dashboard/dashboard.controller";
 
 const adminRouter = express.Router();
@@ -22,6 +23,7 @@ adminRouter.delete("/course", authMiddleware, adminMiddleware, deleteCourse);
 adminRouter.delete("/course/section/lecture", authMiddleware, adminMiddleware, removeLectureController);
 adminRouter.put("/course/section/title", authMiddleware, adminMiddleware, updateSectionTitleController);
 adminRouter.delete("/course/section", authMiddleware, adminMiddleware, removeSectionController);
+adminRouter.get("/course/users/:courseId", authMiddleware, adminMiddleware, getCourseUsersController);
 
 // ---------------------------------- User Queries Routes ------------------------------
 adminRouter.get("/user_queries", authMiddleware, adminMiddleware, getUserQueries);
@@ -42,6 +44,11 @@ adminRouter.get("/discounts", authMiddleware, adminMiddleware, getDiscounts)
 adminRouter.get("/get_users", authMiddleware, adminMiddleware, getUsersController);
 adminRouter.get("/get_users/:email", authMiddleware, adminMiddleware, getUserByEmail);
 
-
+// ---------------------------------- Customer Review Routes ----------------------------------
+adminRouter.get("/customer_reviews", authMiddleware, adminMiddleware, getCustomerReviewController);
+adminRouter.get("/customer_reviews/:email", authMiddleware, adminMiddleware, getCustomerReviewByEmailController);
+adminRouter.delete("/customer_reviews/:reviewId", authMiddleware, adminMiddleware, removeCustomerReviewController);
+adminRouter.put("/customer_reviews/onscreen", authMiddleware, adminMiddleware, updateOnScreenCustomerReview);
 
 export default adminRouter;
+

@@ -35,15 +35,7 @@ const courseSchema = new mongoose_1.default.Schema({
                             type: String,
                             required: true,
                         },
-                        sequence: {
-                            type: Number,
-                            required: true,
-                        },
                         video_playback_time: {
-                            type: String,
-                            required: true,
-                        },
-                        description: {
                             type: String,
                             required: true,
                         },

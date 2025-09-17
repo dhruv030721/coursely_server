@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { logger, User, PurchasedCourse } from "yayinstocks_shared_module"
+import jwt from "jsonwebtoken";
+import { logger, User, PurchasedCourse, CustomerReview } from "yayinstocks_shared_module"
 
 const getUserPurchasedCoursesController = async (req: Request, res: Response) => {
     try {
@@ -15,11 +16,35 @@ const getUserPurchasedCoursesController = async (req: Request, res: Response) =>
             return res.status(404).json({ message: "User not found" });
         }
 
-        const purchasedCourses = await PurchasedCourse.findOne({ email }).populate("items");
+        let purchasedCourses = await PurchasedCourse.findOne({ email }).populate("items").lean();
 
-        if (!purchasedCourses) {
+        if (!purchasedCourses || !purchasedCourses.items) {
             return res.status(404).json({ message: "No purchased courses found" });
         }
+
+        const baseUrl =
+            process.env.ENV_MODE == "QA"
+                ? process.env.VIDEO_BD_URL_QA
+                : process.env.ENV_MODE == "PROD"
+                    ? process.env.VIDEO_BD_URL_PROD
+                    : process.env.VIDEO_BD_URL_DEV;
+
+        purchasedCourses.items = await Promise.all(purchasedCourses?.items.map(async (item: any) => {
+            // item.sections.forEach((section: any) => {
+            //     section.lectures.forEach((lecture: any) => {
+            //         const pathName = new URL(lecture.video_url).pathname;
+            //         const filePath = pathName.replace(/^\/videos\//, "");
+            //         const token = jwt.sign({ filePath }, process.env.JWT_SECRET as string, { expiresIn: '5m' });
+            //         lecture.video_url = `${baseUrl}/videos?token=${token}`;
+            //     });
+            // });
+            const isReviewed = await CustomerReview.findOne({ courseId: item._id, userId: user._id });
+            item.isReviewed = isReviewed ? true : false;
+            return {
+                ...item,
+                isReviewed: item.isReviewed
+            };
+        }));
 
         res.status(200).json({
             success: true,

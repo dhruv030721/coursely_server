@@ -11,9 +11,7 @@ interface CourseDocument extends mongoose.Document {
     lectures: {
       _id?: mongoose.Types.ObjectId;
       title: string;
-      sequence: number;
       video_playback_time: string;
-      description: string;
       video_url: string;
     }[];
   }[];
@@ -52,15 +50,7 @@ const courseSchema = new mongoose.Schema<CourseDocument>(
                 type: String,
                 required: true,
               },
-              sequence: {
-                type: Number,
-                required: true,
-              },
               video_playback_time: {
-                type: String,
-                required: true,
-              },
-              description: {
                 type: String,
                 required: true,
               },

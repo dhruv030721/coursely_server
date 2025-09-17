@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Confirmation - <%= companyName %></title>
+    <style>
+        /* Mobile-first responsive styles */
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .content-wrapper {
+                padding: 20px !important;
+            }
+
+            .header-content {
+                padding: 30px 20px !important;
+            }
+
+            .header-title {
+                font-size: 24px !important;
+            }
+
+            .section-title {
+                font-size: 18px !important;
+            }
+
+            .cta-button {
+                display: block !important;
+                width: 100% !important;
+                margin: 10px 0 !important;
+                padding: 15px 20px !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+            }
+
+            .logo-img {
+                max-width: 150px !important;
+            }
+
+            .footer-links {
+                display: block !important;
+                margin: 10px 0 !important;
+            }
+
+            .footer-links a {
+                display: inline-block !important;
+                margin: 5px 10px !important;
+            }
+
+            .cart-item {
+                display: block !important;
+                padding: 15px 0 !important;
+            }
+
+            .item-details {
+                text-align: left !important;
+                padding: 10px 0 !important;
+            }
+
+            .item-price {
+                text-align: right !important;
+                padding: 10px 0 !important;
+                font-weight: bold !important;
+            }
+
+            .total-row {
+                font-size: 14px !important;
+            }
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            padding: 15px 0;
+            vertical-align: top;
+        }
+
+        .item-price {
+            padding: 15px 0;
+            text-align: right;
+            vertical-align: top;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .total-section {
+            background-color: #f8fffe;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 16px;
+        }
+
+        .total-row.final {
+            border-top: 2px solid #1a4d3a;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #1a4d3a;
+        }
+
+        .discount-row {
+            color: #4ade80;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4;">
+        <tr>
+            <td align="center" style="padding: 20px 10px;">
+                <table class="email-container" width="600" cellpadding="0" cellspacing="0"
+                    style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 600px; width: 100%;">
+                    
+                    <!-- Header -->
+                    <tr>
+                        <td class="header-content"
+                            style="background: linear-gradient(135deg, #000000 0%, #09451e 50%, #4a2c2a 100%); padding: 40px 30px; text-align: center; border-radius: 10px 10px 0 0;">
+                            <div style="margin-bottom: 30px;">
+                                <img class="logo-img" src="<%= logoUrl %>" alt="<%= companyName %>"
+                                    style="max-width: 180px; height: auto; display: block; margin: 0 auto;" />
+                            </div>
+                            <h1 class="header-title"
+                                style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold; line-height: 1.2;">
+                                Purchase Confirmed! 🎉
+                            </h1>
+                            <p style="color: #ffffff; margin: 15px 0 0 0; font-size: 16px; opacity: 0.9;">
+                                Receipt No #<%= receiptId %>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Main Content -->
+                    <tr>
+                        <td class="content-wrapper" style="padding: 40px 30px;">
+                            <div style="color: #333333; line-height: 1.6;">
+                                <h2 style="color: #1a4d3a; margin-top: 0; font-size: 24px;">
+                                    Thank you, <%= userName %>!
+                                </h2>
+
+                                <p style="font-size: 16px; margin-bottom: 25px;">
+                                    Your purchase has been successfully processed. You now have access to premium trading resources that will accelerate your journey to market mastery.
+                                </p>
+
+                                <!-- Order Summary -->
+                                <div style="margin: 30px 0;">
+                                    <h3 class="section-title" style="color: #1a4d3a; font-size: 20px; margin-bottom: 20px;">
+                                        📋 Order Summary
+                                    </h3>
+                                    
+                                    <!-- Cart Items -->
+                                    <table class="cart-table">
+                                        <% cartItems.forEach(function(item) { %>
+                                        <tr class="cart-item">
+                                            <td class="item-details">
+                                                <div style="font-weight: bold; color: #1a4d3a; margin-bottom: 5px;">
+                                                    <%= item.name %>
+                                                </div>
+                                            </td>
+                                            <td class="item-price" style="color: #1a4d3a;">
+                                                ₹<%= item.price.toLocaleString('en-IN') %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                    </table>
+
+                                    <!-- Totals Section -->
+                                    <div class="total-section">
+                                        <% if (discount && discount > 0) { %>
+                                        <div class="total-row discount-row">    
+                                            <span>Discount : -₹<%= discount.toLocaleString('en-IN') %></span>
+                                        </div>
+                                        <% } %>
+                                        
+                                        <div class="total-row final">
+                                            <span style="margin-right: 5px;">Total Amount: </span>
+                                            <span>₹<%= totalAmount.toLocaleString('en-IN') %></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Payment Details -->
+                                <div
+                                    style="background-color: #f8fffe; padding: 25px; border-radius: 8px; border-left: 4px solid #4ade80; margin: 25px 0;">
+                                    <h3 class="section-title" style="color: #1a4d3a; margin-top: 0; font-size: 20px;">
+                                        💳 Payment Details
+                                    </h3>
+                                    <div style="color: #333333;">
+                                        <p style="margin: 10px 0;"><strong>Razorpay Payment ID::</strong> <%= razorpayPaymentId%></p>
+                                        <p style="margin: 10px 0;"><strong>Razorpay Order ID:</strong> <%= razorpayOrderId %></p>
+                                        <p style="margin: 10px 0;"><strong>Receipt ID:</strong> <%= receiptId %></p>
+                                        <p style="margin: 10px 0;"><strong>Purchase Date:</strong> <%= purchaseDate %></p>
+                                    </div>
+                                </div>
+
+                                <!-- What's Next -->
+                                <div style="margin: 30px 0;">
+                                    <h3 class="section-title" style="color: #1a4d3a; font-size: 20px;">
+                                        🚀 What's Next?
+                                    </h3>
+                                    <ul style="color: #333333; padding-left: 20px;">
+                                        <li style="margin-bottom: 10px;"><strong>Access Your Content:</strong> Log in to your account to start accessing your purchased courses immediately</li>
+                                        <li style="margin-bottom: 10px;"><strong>Download Resources:</strong> Get your exclusive trading guides and market analysis tools</li>
+                                        <li style="margin-bottom: 10px;"><strong>Join Live Sessions:</strong> Participate in upcoming webinars and trading discussions</li>
+                                        <li><strong>Connect with Community:</strong> Join our private Telegram group for real-time trading insights</li>
+                                    </ul>
+                                </div>
+
+                                <!-- CTA Buttons -->
+                                <div style="text-align: center; margin: 30px 0;">
+                                    <a class="cta-button" href="<%= accountUrl %>"
+                                        style="display: inline-block; background-color: #4ade80; color: #ffffff; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 16px; margin: 5px;">
+                                        Access Your Account
+                                    </a>
+                                    <a class="cta-button" href="<%= supportUrl %>"
+                                        style="display: inline-block; background-color: transparent; color: #1a4d3a; padding: 13px 28px; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 16px; border: 2px solid #1a4d3a; margin: 5px;">
+                                        Get Support
+                                    </a>
+                                </div>
+
+                                <!-- Success Message -->
+                                <div
+                                    style="background-color: #1a4d3a; color: #ffffff; padding: 25px; border-radius: 8px; margin: 25px 0; text-align: center;">
+                                    <h3 style="margin-top: 0; color: #4ade80;">🏆 You're Now Ready to Trade Like a Pro!</h3>
+                                    <p style="margin-bottom: 0; font-style: italic;">
+                                        "Your investment in education is the best investment you can make. Start implementing what you learn and watch your trading skills transform."
+                                    </p>
+                                </div>
+
+                                <p style="font-size: 16px; margin-bottom: 20px;">
+                                    If you have any questions about your purchase or need help getting started, our support team is here to assist you. Simply reply to this email or contact us through any of our channels.
+                                </p>
+
+                                <p style="font-size: 16px; margin-bottom: 30px;">
+                                    Thank you for choosing us for your trading education!<br>
+                                    <strong>The <%= companyName %> Team</strong>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td
+                            style="background-color: #f8f9fa; padding: 30px 20px; text-align: center; border-radius: 0 0 10px 10px;">
+                            <div style="color: #666666; font-size: 14px; line-height: 1.5;">
+                                <p style="margin: 0 0 15px 0;">
+                                    Follow us for daily market insights and trading tips:
+                                </p>
+                                <div class="footer-links" style="margin: 15px 0;">
+                                    <a href="<%= websiteUrl %>"
+                                        style="color: #4ade80; text-decoration: none; margin: 0 10px;">Website</a> |
+                                    <a href="<%= linkedinUrl %>"
+                                        style="color: #4ade80; text-decoration: none; margin: 0 10px;">LinkedIn</a> |
+                                    <a href="<%= youtubeUrl %>"
+                                        style="color: #4ade80; text-decoration: none; margin: 0 10px;">YouTube</a> |
+                                    <a href="<%= telegramUrl %>"
+                                        style="color: #4ade80; text-decoration: none; margin: 0 10px;">Telegram</a>
+                                </div>
+                                <p style="margin: 15px 0 0 0; font-size: 12px; color: #999999;">
+                                    This is a purchase confirmation email from <%= companyName %>.
+                                    <a href="<%= invoiceUrl %>"
+                                        style="color: #4ade80; text-decoration: none;">Download Invoice</a> |
+                                    <a href="<%= supportUrl %>"
+                                        style="color: #4ade80; text-decoration: none;">Contact Support</a> |
+                                    <a href="<%= privacyUrl %>"
+                                        style="color: #4ade80; text-decoration: none;">Privacy Policy</a>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

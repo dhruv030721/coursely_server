@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Discount, logger, User } from "yayinstocks_shared_module"
+import { Discount, logger, User, CustomerReview } from "yayinstocks_shared_module"
 
 const homePageController = async (req: Request, res: Response) => {
     try {
@@ -10,7 +10,15 @@ const homePageController = async (req: Request, res: Response) => {
 
         const discounts = discountTexts.map(discount => `${discount.code} ${discount.offerText}`);
 
-        res.status(200).json({ success: true, message: "Homepage data fetched successfully", data: { userCount, discounts } });
+        const CustomerReviews = await CustomerReview.find({ isOnScreen: true }).populate({
+            path: "userId",
+            select: "name"
+        }).populate({
+            path: "courseId",
+            select: "title"
+        }).lean();
+
+        res.status(200).json({ success: true, message: "Homepage data fetched successfully", data: { userCount, discounts, reviews: CustomerReviews } });
         return;
 
     } catch (error) {

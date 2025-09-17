@@ -13,7 +13,6 @@ const yayinstocks_shared_module_1 = require("yayinstocks_shared_module");
 const removeLectureController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { courseId, sectionId, lectureId } = req.body;
-        console.log(courseId, sectionId, lectureId);
         const course = yield yayinstocks_shared_module_1.Course.findById(courseId);
         if (!course) {
             res.status(404).json({ success: false, message: "Course not found" });

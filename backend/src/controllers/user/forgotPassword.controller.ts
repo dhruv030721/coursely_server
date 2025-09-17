@@ -5,6 +5,7 @@ import path from "path";
 import ejs from "ejs";
 import { sendMail } from 'yayinstocks_shared_module';
 import bcrypt from 'bcrypt';
+import CryptoJS from 'crypto-js';
 
 export const forgotPasswordController = async (req: Request, res: Response) => {
     try {
@@ -45,7 +46,6 @@ export const forgotPasswordController = async (req: Request, res: Response) => {
             expiryTime: '1min',
             supportEmail: 'support@yayinstocks.in',
             websiteUrl: 'https://yayinstocks.in',
-            privacyUrl: 'https://yayinstocks.in/privacy-policy'
         }
         )
 
@@ -78,6 +78,8 @@ export const changePasswordController = async (req: Request, res: Response) => {
     try {
         const { email, password, otp } = req.body
 
+        const cryptoPassword = CryptoJS.AES.decrypt(password, process.env.CRYPTO_SECRET as string).toString(CryptoJS.enc.Utf8);
+
         const otpInstance = await OTP.findOne({ email, otp: otp })
 
         if (!otpInstance) {
@@ -92,7 +94,7 @@ export const changePasswordController = async (req: Request, res: Response) => {
             return;
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10)
+        const hashedPassword = await bcrypt.hash(cryptoPassword, 10)
 
         await User.updateOne({ email }, { password: hashedPassword })
 

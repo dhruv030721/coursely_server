@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 
-const courseReviewSchema = new mongoose.Schema({
+interface customerReviewDocument extends mongoose.Document {
+    courseId: mongoose.Schema.Types.ObjectId;
+    userId: mongoose.Schema.Types.ObjectId;
+    rating: number;
+    message: string;
+    isOnScreen: boolean;
+}
+
+const customerReviewSchema = new mongoose.Schema<customerReviewDocument>({
     courseId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Course",
@@ -17,20 +25,15 @@ const courseReviewSchema = new mongoose.Schema({
         min: 1,
         max: 5,
     },
-    comment: {
+    message: {
         type: String,
         required: true,
         trim: true,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
+    isOnScreen: {
+        type: Boolean,
+        default: false,
+    }
+}, { timestamps: true });
 
-const CourseReview = mongoose.model("CourseReview", courseReviewSchema);
-export default CourseReview;
+export { customerReviewSchema, customerReviewDocument };

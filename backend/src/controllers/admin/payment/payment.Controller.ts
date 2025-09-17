@@ -13,7 +13,7 @@ const paymentController = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        await PaymentHistory.create({   
+        await PaymentHistory.create({
             email,
             items: items.map((item: string) => new mongoose.Types.ObjectId(item)),
             razorpayPaymentId,
@@ -57,14 +57,9 @@ const paymentController = async (req: Request, res: Response) => {
                 month: 'long',
                 day: 'numeric',
             }),
-            accountUrl: "",
-            supportUrl: "",
-            websiteUrl: "",
-            linkedinUrl: "",
+            supportUrl: COMPANY_CONFIG.supportEmail,
+            websiteUrl: COMPANY_CONFIG.websiteUrl,
             youtubeUrl: "",
-            telegramUrl: "",
-            invoiceUrl: "",
-            privacyUrl: ""
         });
 
         const mailOptions = {
