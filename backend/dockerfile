@@ -16,8 +16,7 @@ RUN npm install
 RUN npm run build
 
 # ---------- Production Stage ----------
-FROM node:18-slim as prod-stage
-
+FROM node:18 as prod-stage
 
 WORKDIR /app
 

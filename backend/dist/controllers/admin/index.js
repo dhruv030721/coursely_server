@@ -10,6 +10,7 @@ const course_1 = require("./course");
 const payment_1 = require("./payment");
 const user_queries_1 = require("./user-queries");
 const user_1 = require("./user");
+const customer_review_1 = require("./customer-review");
 const dashboard_controller_1 = __importDefault(require("./dashboard/dashboard.controller"));
 const adminRouter = express_1.default.Router();
 adminRouter.get("/dashboard", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, dashboard_controller_1.default);
@@ -40,4 +41,9 @@ adminRouter.get("/discounts", middlewares_1.authMiddleware, middlewares_1.adminM
 // ---------------------------------- User Routes ----------------------------------
 adminRouter.get("/get_users", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, user_1.getUsersController);
 adminRouter.get("/get_users/:email", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, user_1.getUserByEmail);
+// ---------------------------------- Customer Review Routes ----------------------------------
+adminRouter.get("/customer_reviews", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, customer_review_1.getCustomerReviewController);
+adminRouter.get("/customer_reviews/:email", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, customer_review_1.getCustomerReviewByEmailController);
+adminRouter.delete("/customer_reviews/:reviewId", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, customer_review_1.removeCustomerReviewController);
+adminRouter.put("/customer_reviews/onscreen", middlewares_1.authMiddleware, middlewares_1.adminMiddleware, customer_review_1.updateOnScreenCustomerReview);
 exports.default = adminRouter;

@@ -8,11 +8,11 @@ interface DiscountDocument extends mongoose.Document {
     createdAt: Date;
     updatedAt: Date;
 }
-declare const discountSchema: mongoose.Schema<DiscountDocument, mongoose.Model<DiscountDocument, any, any, any, mongoose.Document<unknown, any, DiscountDocument, any> & DiscountDocument & Required<{
+declare const discountSchema: mongoose.Schema<DiscountDocument, mongoose.Model<DiscountDocument, any, any, any, mongoose.Document<unknown, any, DiscountDocument, any, {}> & DiscountDocument & Required<{
     _id: mongoose.Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, DiscountDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<DiscountDocument>, {}> & mongoose.FlatRecord<DiscountDocument> & Required<{
+}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, DiscountDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<DiscountDocument>, {}, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & mongoose.FlatRecord<DiscountDocument> & Required<{
     _id: mongoose.Types.ObjectId;
 }> & {
     __v: number;

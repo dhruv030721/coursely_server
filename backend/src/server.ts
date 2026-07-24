@@ -19,7 +19,6 @@ app.use(express.json({ limit: '500MB' }));
 app.use(express.urlencoded({ limit: '500MB', extended: true }));
 app.set("trust proxy", 1);
 app.use(cookieParser());
-
 if (process.env.ENV_MODE === "QA") {
   app.use(
     cors({

@@ -12,11 +12,11 @@ interface UserDocument extends mongoose.Document {
     createdAt: Date;
     updatedAt: Date;
 }
-declare const userSchema: mongoose.Schema<UserDocument, mongoose.Model<UserDocument, any, any, any, mongoose.Document<unknown, any, UserDocument, any> & UserDocument & Required<{
+declare const userSchema: mongoose.Schema<UserDocument, mongoose.Model<UserDocument, any, any, any, mongoose.Document<unknown, any, UserDocument, any, {}> & UserDocument & Required<{
     _id: mongoose.Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, UserDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<UserDocument>, {}> & mongoose.FlatRecord<UserDocument> & Required<{
+}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, UserDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<UserDocument>, {}, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & mongoose.FlatRecord<UserDocument> & Required<{
     _id: mongoose.Types.ObjectId;
 }> & {
     __v: number;

@@ -19,6 +19,7 @@ const path_1 = __importDefault(require("path"));
 const ejs_1 = __importDefault(require("ejs"));
 const yayinstocks_shared_module_3 = require("yayinstocks_shared_module");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const crypto_js_1 = __importDefault(require("crypto-js"));
 const forgotPasswordController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email } = req.body;
@@ -49,7 +50,6 @@ const forgotPasswordController = (req, res) => __awaiter(void 0, void 0, void 0,
             expiryTime: '1min',
             supportEmail: 'support@yayinstocks.in',
             websiteUrl: 'https://yayinstocks.in',
-            privacyUrl: 'https://yayinstocks.in/privacy-policy'
         });
         const mailOptions = {
             from: "Yayinstock <support@yayinstocks.in>",
@@ -76,6 +76,7 @@ exports.forgotPasswordController = forgotPasswordController;
 const changePasswordController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password, otp } = req.body;
+        const cryptoPassword = crypto_js_1.default.AES.decrypt(password, process.env.CRYPTO_SECRET).toString(crypto_js_1.default.enc.Utf8);
         const otpInstance = yield yayinstocks_shared_module_2.OTP.findOne({ email, otp: otp });
         if (!otpInstance) {
             res.status(400).json({ success: false, message: 'Invalid OTP code' });
@@ -86,7 +87,7 @@ const changePasswordController = (req, res) => __awaiter(void 0, void 0, void 0,
             res.status(404).json({ success: false, message: 'User not found' });
             return;
         }
-        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const hashedPassword = yield bcrypt_1.default.hash(cryptoPassword, 10);
         yield yayinstocks_shared_module_2.User.updateOne({ email }, { password: hashedPassword });
         res.status(200).json({ success: true, message: 'Password changed successfully' });
         return;

@@ -57,14 +57,9 @@ const paymentController = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 month: 'long',
                 day: 'numeric',
             }),
-            accountUrl: "",
-            supportUrl: "",
-            websiteUrl: "",
-            linkedinUrl: "",
+            supportUrl: yayinstocks_shared_module_1.COMPANY_CONFIG.supportEmail,
+            websiteUrl: yayinstocks_shared_module_1.COMPANY_CONFIG.websiteUrl,
             youtubeUrl: "",
-            telegramUrl: "",
-            invoiceUrl: "",
-            privacyUrl: ""
         });
         const mailOptions = {
             from: process.env.MAIL_OPTION_FROM,

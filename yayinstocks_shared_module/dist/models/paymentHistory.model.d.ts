@@ -12,11 +12,11 @@ interface PaymentHistoryDocument extends mongoose.Document {
     createdAt: Date;
     updatedAt: Date;
 }
-declare const paymentHistorySchema: mongoose.Schema<PaymentHistoryDocument, mongoose.Model<PaymentHistoryDocument, any, any, any, mongoose.Document<unknown, any, PaymentHistoryDocument, any> & PaymentHistoryDocument & Required<{
+declare const paymentHistorySchema: mongoose.Schema<PaymentHistoryDocument, mongoose.Model<PaymentHistoryDocument, any, any, any, mongoose.Document<unknown, any, PaymentHistoryDocument, any, {}> & PaymentHistoryDocument & Required<{
     _id: mongoose.Schema.Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, PaymentHistoryDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<PaymentHistoryDocument>, {}> & mongoose.FlatRecord<PaymentHistoryDocument> & Required<{
+}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, PaymentHistoryDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<PaymentHistoryDocument>, {}, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & mongoose.FlatRecord<PaymentHistoryDocument> & Required<{
     _id: mongoose.Schema.Types.ObjectId;
 }> & {
     __v: number;

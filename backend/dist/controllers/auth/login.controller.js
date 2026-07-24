@@ -16,6 +16,7 @@ const yayinstocks_shared_module_1 = require("yayinstocks_shared_module");
 const yayinstocks_shared_module_2 = require("yayinstocks_shared_module");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const crypto_js_1 = __importDefault(require("crypto-js"));
 const generateAuthToken = (payload) => {
     return jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
@@ -35,12 +36,13 @@ const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function
                 .json({ success: false, message: "Email and password are required" });
             return;
         }
+        const cryptoPassword = crypto_js_1.default.AES.decrypt(password, process.env.CRYPTO_SECRET).toString(crypto_js_1.default.enc.Utf8);
         const user = yield yayinstocks_shared_module_2.User.findOne({ email });
         if (!user) {
             res.status(404).json({ success: false, message: "User not found" });
             return;
         }
-        const isPasswordValid = yield bcrypt_1.default.compare(password, user.password);
+        const isPasswordValid = yield bcrypt_1.default.compare(cryptoPassword, user.password);
         if (!isPasswordValid) {
             res.status(401).json({ success: false, message: "Invalid password" });
             return;
@@ -72,6 +74,7 @@ const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function
             success: true,
             message: "Login successful",
             data: {
+                _id: user._id,
                 email: user.email,
                 name: user.name,
                 contact: user.contact,

@@ -18,6 +18,7 @@ const path_1 = __importDefault(require("path"));
 const ejs_1 = __importDefault(require("ejs"));
 const yayinstocks_shared_module_2 = require("yayinstocks_shared_module");
 const yayinstocks_shared_module_3 = require("yayinstocks_shared_module");
+const crypto_js_1 = __importDefault(require("crypto-js"));
 const signupController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, email, password, age, contact } = req.body;
@@ -30,7 +31,8 @@ const signupController = (req, res) => __awaiter(void 0, void 0, void 0, functio
             res.status(409).json({ success: true, message: 'User already exists' });
             return;
         }
-        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const cryptoPassword = crypto_js_1.default.AES.decrypt(password, process.env.CRYPTO_SECRET).toString(crypto_js_1.default.enc.Utf8);
+        const hashedPassword = yield bcrypt_1.default.hash(cryptoPassword, 10);
         const newUser = yield yayinstocks_shared_module_1.User.create({
             name,
             email,
@@ -53,10 +55,6 @@ const signupController = (req, res) => __awaiter(void 0, void 0, void 0, functio
             mutualFundUrl: 'https://yayinstocks.in/mutual-funds',
             websiteUrl: yayinstocks_shared_module_3.COMPANY_CONFIG.websiteUrl,
             linkedinUrl: 'https://linkedin.com/company/yayinstocks',
-            youtubeUrl: 'https://youtube.com/@yayinstocks',
-            telegramUrl: 'https://t.me/yayinstocks',
-            unsubscribeUrl: 'https://yayinstocks.in/unsubscribe',
-            privacyUrl: 'https://yayinstocks.in/privacy-policy'
         });
         const mailOptions = {
             from: process.env.MAIL_OPTION_FROM,

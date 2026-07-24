@@ -17,11 +17,12 @@ const getCourseUsersController = (req, res) => __awaiter(void 0, void 0, void 0,
             res.status(403).json({ success: false, message: "courseId is not found!" });
             return;
         }
-        const courseUsers = yield yayinstocks_shared_module_1.PurchasedCourse.find({ items: courseId }).populate('user', 'name email contact');
+        const courseUsers = yield yayinstocks_shared_module_1.PurchasedCourse.find({ items: courseId }).select("email createdAt");
         res.status(200).json({ success: true, data: courseUsers });
         return;
     }
     catch (error) {
+        yayinstocks_shared_module_1.logger.error("Error in [getCourseUsersController]:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
         return;
     }

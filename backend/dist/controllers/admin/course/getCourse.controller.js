@@ -14,15 +14,22 @@ const yayinstocks_shared_module_1 = require("yayinstocks_shared_module");
 const getCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // fetch all courses
-        const courses = yield yayinstocks_shared_module_1.Course.find({}).lean();
+        let courses = yield yayinstocks_shared_module_1.Course.find({}).lean();
         // remove video_url from lectures
-        courses.forEach((course) => {
+        courses = yield Promise.all(courses.map((course) => __awaiter(void 0, void 0, void 0, function* () {
+            const review = yield yayinstocks_shared_module_1.CustomerReview.findOne({ courseId: course._id }).populate("userId", "name");
+            let averageRating = 0;
+            if (Array.isArray(review) && review.length > 0) {
+                averageRating = review.map((r) => r.rating).reduce((a, b) => a + b, 0) / (review.length || 1);
+            }
+            const users = yield yayinstocks_shared_module_1.PurchasedCourse.find({ items: course._id }).countDocuments();
             course.sections.forEach((section) => {
                 section.lectures.forEach((lecture) => {
                     delete lecture.video_url;
                 });
             });
-        });
+            return Object.assign(Object.assign({}, course), { reviews: review ? [review] : [], users, averageRating: averageRating < 0 ? review.rating : Math.round(averageRating * 10) / 10 });
+        })));
         res.status(200).json({
             success: true,
             message: "Courses fetched successfully.",

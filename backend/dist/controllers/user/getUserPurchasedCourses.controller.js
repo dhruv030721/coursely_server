@@ -20,10 +20,28 @@ const getUserPurchasedCoursesController = (req, res) => __awaiter(void 0, void 0
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        const purchasedCourses = yield yayinstocks_shared_module_1.PurchasedCourse.findOne({ email }).populate("items");
-        if (!purchasedCourses) {
+        let purchasedCourses = yield yayinstocks_shared_module_1.PurchasedCourse.findOne({ email }).populate("items").lean();
+        if (!purchasedCourses || !purchasedCourses.items) {
             return res.status(404).json({ message: "No purchased courses found" });
         }
+        const baseUrl = process.env.ENV_MODE == "QA"
+            ? process.env.VIDEO_BD_URL_QA
+            : process.env.ENV_MODE == "PROD"
+                ? process.env.VIDEO_BD_URL_PROD
+                : process.env.VIDEO_BD_URL_DEV;
+        purchasedCourses.items = yield Promise.all(purchasedCourses === null || purchasedCourses === void 0 ? void 0 : purchasedCourses.items.map((item) => __awaiter(void 0, void 0, void 0, function* () {
+            // item.sections.forEach((section: any) => {
+            //     section.lectures.forEach((lecture: any) => {
+            //         const pathName = new URL(lecture.video_url).pathname;
+            //         const filePath = pathName.replace(/^\/videos\//, "");
+            //         const token = jwt.sign({ filePath }, process.env.JWT_SECRET as string, { expiresIn: '5m' });
+            //         lecture.video_url = `${baseUrl}/videos?token=${token}`;
+            //     });
+            // });
+            const isReviewed = yield yayinstocks_shared_module_1.CustomerReview.findOne({ courseId: item._id, userId: user._id });
+            item.isReviewed = isReviewed ? true : false;
+            return Object.assign(Object.assign({}, item), { isReviewed: item.isReviewed });
+        })));
         res.status(200).json({
             success: true,
             data: purchasedCourses

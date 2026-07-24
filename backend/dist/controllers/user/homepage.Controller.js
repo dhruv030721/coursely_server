@@ -15,7 +15,14 @@ const homePageController = (req, res) => __awaiter(void 0, void 0, void 0, funct
         const userCount = yield yayinstocks_shared_module_1.User.countDocuments({ role: 'user' });
         const discountTexts = yield yayinstocks_shared_module_1.Discount.find({ status: "active" }).select("offerText code");
         const discounts = discountTexts.map(discount => `${discount.code} ${discount.offerText}`);
-        res.status(200).json({ success: true, message: "Homepage data fetched successfully", data: { userCount, discounts } });
+        const CustomerReviews = yield yayinstocks_shared_module_1.CustomerReview.find({ isOnScreen: true }).populate({
+            path: "userId",
+            select: "name"
+        }).populate({
+            path: "courseId",
+            select: "title"
+        }).lean();
+        res.status(200).json({ success: true, message: "Homepage data fetched successfully", data: { userCount, discounts, reviews: CustomerReviews } });
         return;
     }
     catch (error) {

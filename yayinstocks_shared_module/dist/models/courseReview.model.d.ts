@@ -6,11 +6,11 @@ interface customerReviewDocument extends mongoose.Document {
     message: string;
     isOnScreen: boolean;
 }
-declare const customerReviewSchema: mongoose.Schema<customerReviewDocument, mongoose.Model<customerReviewDocument, any, any, any, mongoose.Document<unknown, any, customerReviewDocument, any> & customerReviewDocument & Required<{
+declare const customerReviewSchema: mongoose.Schema<customerReviewDocument, mongoose.Model<customerReviewDocument, any, any, any, mongoose.Document<unknown, any, customerReviewDocument, any, {}> & customerReviewDocument & Required<{
     _id: unknown;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, customerReviewDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<customerReviewDocument>, {}> & mongoose.FlatRecord<customerReviewDocument> & Required<{
+}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, customerReviewDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<customerReviewDocument>, {}, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & mongoose.FlatRecord<customerReviewDocument> & Required<{
     _id: unknown;
 }> & {
     __v: number;

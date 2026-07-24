@@ -4,11 +4,11 @@ interface PurchasedCourseDocument extends mongoose.Document {
     email: string;
     items: mongoose.Schema.Types.ObjectId[];
 }
-declare const purchasedCourseSchema: mongoose.Schema<PurchasedCourseDocument, mongoose.Model<PurchasedCourseDocument, any, any, any, mongoose.Document<unknown, any, PurchasedCourseDocument, any> & PurchasedCourseDocument & Required<{
+declare const purchasedCourseSchema: mongoose.Schema<PurchasedCourseDocument, mongoose.Model<PurchasedCourseDocument, any, any, any, mongoose.Document<unknown, any, PurchasedCourseDocument, any, {}> & PurchasedCourseDocument & Required<{
     _id: mongoose.Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, PurchasedCourseDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<PurchasedCourseDocument>, {}> & mongoose.FlatRecord<PurchasedCourseDocument> & Required<{
+}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, PurchasedCourseDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<PurchasedCourseDocument>, {}, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & mongoose.FlatRecord<PurchasedCourseDocument> & Required<{
     _id: mongoose.Types.ObjectId;
 }> & {
     __v: number;

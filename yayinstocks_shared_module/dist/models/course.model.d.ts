@@ -18,11 +18,11 @@ interface CourseDocument extends mongoose.Document {
     status: "draft" | "published";
     featured: boolean;
 }
-declare const courseSchema: mongoose.Schema<CourseDocument, mongoose.Model<CourseDocument, any, any, any, mongoose.Document<unknown, any, CourseDocument, any> & CourseDocument & Required<{
+declare const courseSchema: mongoose.Schema<CourseDocument, mongoose.Model<CourseDocument, any, any, any, mongoose.Document<unknown, any, CourseDocument, any, {}> & CourseDocument & Required<{
     _id: mongoose.Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, CourseDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<CourseDocument>, {}> & mongoose.FlatRecord<CourseDocument> & Required<{
+}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, CourseDocument, mongoose.Document<unknown, {}, mongoose.FlatRecord<CourseDocument>, {}, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & mongoose.FlatRecord<CourseDocument> & Required<{
     _id: mongoose.Types.ObjectId;
 }> & {
     __v: number;
